@@ -1,12 +1,36 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { HeroSection } from '@/components/home/HeroSection';
+import { SmartSolutionsSection } from '@/components/home/SmartSolutionsSection';
+import { PartnersCarousel } from '@/components/home/PartnersCarousel';
+import { SolutionsSection } from '@/components/home/SolutionsSection';
+import { CassavaAIBanner } from '@/components/home/CassavaAIBanner';
+import { NewsletterSection } from '@/components/home/NewsletterSection';
+import { NewsSection } from '@/components/home/NewsSection';
+import { ConsultationCTA } from '@/components/home/ConsultationCTA';
+import { useEffect } from 'react';
 
 const Index = () => {
+  // Analytics hook placeholder
+  useEffect(() => {
+    // Initialize analytics tracking
+    console.log('Page view: Home');
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1">
+        <HeroSection />
+        <SmartSolutionsSection />
+        <PartnersCarousel />
+        <SolutionsSection />
+        <CassavaAIBanner />
+        <NewsletterSection />
+        <NewsSection />
+        <ConsultationCTA />
+      </main>
+      <Footer />
     </div>
   );
 };
