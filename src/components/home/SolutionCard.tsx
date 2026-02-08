@@ -31,11 +31,11 @@ export const SolutionCard = ({
   return (
     <section
       ref={ref}
-      className={`py-16 ${reverse ? 'bg-muted/50' : 'bg-background'}`}
+      className={`py-24 ${reverse ? 'bg-muted' : 'bg-white'}`}
     >
       <div className="container mx-auto px-4">
         <div
-          className={`grid lg:grid-cols-2 gap-12 items-center ${
+          className={`grid lg:grid-cols-2 gap-16 items-center ${
             reverse ? 'lg:flex-row-reverse' : ''
           }`}
         >
@@ -46,34 +46,31 @@ export const SolutionCard = ({
             transition={{ duration: 0.6 }}
             className={reverse ? 'lg:order-2' : ''}
           >
-            <h2 className="text-secondary text-2xl font-bold mb-2">{title}</h2>
-            <h3 className="text-3xl md:text-4xl font-bold text-navy mb-6">
-              <Link to={learnMoreLink} className="hover:underline">
+            <h2 className="text-primary text-xl font-bold mb-2 uppercase tracking-wider font-heading">{title}</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-black mb-8 font-heading uppercase leading-tight">
+              <Link to={learnMoreLink} className="hover:text-secondary transition-colors">
                 {subtitle}
               </Link>
             </h3>
-            <p className="text-muted-foreground leading-relaxed mb-6">
+            <p className="text-gray-600 leading-relaxed mb-8 text-lg font-body">
               {description}
             </p>
-            <ul className="space-y-2 mb-8">
+            <ul className="space-y-3 mb-10">
               {features.map((feature) => (
-                <li key={feature} className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-secondary rounded-full" />
-                  <Link
-                    to="#"
-                    className="text-foreground hover:text-secondary transition-colors"
-                  >
+                <li key={feature} className="flex items-center gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full" />
+                  <span className="text-gray-800 font-medium">
                     {feature}
-                  </Link>
+                  </span>
                 </li>
               ))}
             </ul>
             <Link
               to={learnMoreLink}
-              className="inline-flex items-center gap-2 text-secondary font-semibold hover:gap-3 transition-all"
+              className="btn-primary inline-flex items-center gap-2 text-black hover:gap-3"
             >
               Learn More
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
 
@@ -84,13 +81,12 @@ export const SolutionCard = ({
             transition={{ duration: 0.6, delay: 0.2 }}
             className={reverse ? 'lg:order-1' : ''}
           >
-            <div className="relative rounded-lg overflow-hidden shadow-xl">
+            <div className="relative overflow-hidden shadow-2xl">
               <img
                 src={imageSrc}
                 alt={imageAlt}
-                className="w-full h-auto object-cover"
+                className="w-full h-[500px] object-cover hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/30 to-transparent" />
             </div>
           </motion.div>
         </div>

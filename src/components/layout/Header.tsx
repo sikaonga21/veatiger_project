@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,48 +8,77 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
   { href: '/projects', label: 'Projects' },
-  { href: '/careers', label: 'Careers' },
-  { href: '/contact', label: 'Contact an Expert' },
+  // { href: '/careers', label: 'Careers' },
 ];
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'bg-black shadow-lg'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <img src="/logo.png" alt="Veatiger Logo" className="h-12 w-auto object-contain" />
+            <img
+              src="/logo.png"
+              alt="Veatiger Logo"
+              className={`h-16 w-auto object-contain transition-all duration-500 ${
+                scrolled ? 'brightness-0 invert' : ''
+              }`}
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <div key={link.label} className="relative">
-                <Link to={link.href} className="nav-link">
+              <div key={link.label} className="relative group">
+                <Link
+                  to={link.href}
+                  className="text-sm font-bold uppercase tracking-wider font-heading text-white"
+                >
                   {link.label}
                 </Link>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </div>
             ))}
 
             {/* Search */}
-            <button className="p-2 hover:bg-muted rounded-full transition-colors">
-              <Search className="w-5 h-5 text-muted-foreground" />
+            <button className="p-2 rounded-full transition-colors group">
+              <Search className="w-5 h-5 text-white/70 group-hover:text-primary transition-colors" />
             </button>
+
+            {/* CTA Button */}
+            <Link to="/contact" className="btn-primary text-sm">
+              Contact Us
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2"
+            className="lg:hidden p-2 text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
+              <X className="w-8 h-8" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu className="w-8 h-8" />
             )}
           </button>
         </div>
@@ -62,19 +91,26 @@ export const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-background border-b border-border"
+            className="lg:hidden bg-black overflow-hidden"
           >
-            <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
+            <nav className="container mx-auto px-4 py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="py-2 text-foreground hover:text-secondary transition-colors font-medium"
+                  className="py-3 text-lg font-bold uppercase tracking-wider font-heading text-white border-b border-white/10 last:border-0"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
+              <Link
+                to="/contact"
+                className="py-3 text-lg font-bold uppercase tracking-wider font-heading text-primary"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact Us
+              </Link>
             </nav>
           </motion.div>
         )}

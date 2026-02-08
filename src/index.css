@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Zuume Edge';
+  src: url('./assets/fonts/ZuumeEdge-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -6,101 +14,72 @@
 
 @layer base {
   :root {
-    /* Liquid C2 Brand Colors */
+    /* Veatiger Brand Colors */
     --background: 0 0% 100%;
-    --foreground: 220 50% 10%;
+    --foreground: 0 0% 0%; /* Black text */
 
     --card: 0 0% 100%;
-    --card-foreground: 220 50% 10%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 50% 10%;
+    --popover-foreground: 0 0% 0%;
 
-    /* Navy blue primary brand color */
-    --primary: 220 70% 12%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary Yellow #f2e70a */
+    --primary: 57 91% 49%;
+    --primary-foreground: 0 0% 0%; /* Black text on yellow */
 
-    /* Light blue accent */
-    --secondary: 210 100% 50%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary Green #355435 */
+    --secondary: 120 23% 27%;
+    --secondary-foreground: 0 0% 100%; /* White text on green */
 
-    --muted: 220 15% 95%;
-    --muted-foreground: 220 15% 45%;
+    --muted: 60 10% 96%; /* Off-white/Cream */
+    --muted-foreground: 0 0% 40%;
 
-    /* Golden/brown accent for tagline */
-    --accent: 30 50% 45%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 57 91% 49%; /* Yellow accent */
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 90%;
-    --input: 220 15% 90%;
-    --ring: 210 100% 50%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 57 91% 49%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem; /* 4px radius */
 
     /* Custom brand colors */
-    --navy: 220 70% 12%;
-    --navy-light: 220 60% 18%;
-    --blue-accent: 210 100% 50%;
-    --blue-light: 200 100% 70%;
-    --gold: 30 50% 45%;
-    --gold-light: 35 60% 55%;
-
-    /* Hero gradient */
-    --hero-gradient: linear-gradient(135deg, hsl(220 70% 12%) 0%, hsl(220 60% 18%) 100%);
-    
-    /* CTA gradient */
-    --cta-gradient: linear-gradient(135deg, hsl(210 100% 50%) 0%, hsl(200 100% 60%) 100%);
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --brand-yellow: 57 91% 49%;
+    --brand-green: 120 23% 27%;
   }
 
   .dark {
-    --background: 220 70% 8%;
+    --background: 120 23% 27%; /* Dark Green background */
     --foreground: 0 0% 98%;
 
-    --card: 220 70% 12%;
+    --card: 120 23% 25%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 220 70% 12%;
+    --popover: 120 23% 27%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 220 70% 12%;
+    --primary: 57 91% 49%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 220 60% 18%;
+    --secondary: 120 23% 20%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 50% 15%;
-    --muted-foreground: 220 15% 65%;
+    --muted: 120 20% 20%;
+    --muted-foreground: 120 10% 70%;
 
-    --accent: 30 50% 45%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 57 91% 49%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 50% 20%;
-    --input: 220 50% 20%;
-    --ring: 210 100% 50%;
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 120 20% 35%;
+    --input: 120 20% 35%;
+    --ring: 57 91% 49%;
   }
 }
 
@@ -114,159 +93,59 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Zuume Edge', 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 }
 
 @layer components {
-  /* Hero section styles */
-  .hero-section {
-    @apply bg-navy text-white relative overflow-hidden;
-    background: var(--hero-gradient);
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-8 py-3 font-bold uppercase tracking-wide transition-all duration-300;
   }
 
-  /* CTA Button variants */
-  .btn-hero {
-    @apply px-6 py-3 border border-white/80 text-white rounded-sm font-medium;
-    @apply hover:bg-white hover:text-navy transition-all duration-300;
+  .btn-outline {
+    @apply border-2 border-white text-white hover:bg-white hover:text-secondary rounded-md px-8 py-3 font-bold uppercase tracking-wide transition-all duration-300;
   }
 
-  .btn-cta {
-    @apply px-8 py-4 bg-secondary text-white rounded-sm font-semibold;
-    @apply hover:bg-secondary/90 transition-all duration-300;
+  /* Typography */
+  .font-heading {
+    font-family: 'Zuume Edge', 'Oswald', sans-serif;
+  }
+  
+  .font-body {
+    font-family: 'Montserrat', sans-serif;
   }
 
-  /* Solution card */
-  .solution-card {
-    @apply flex flex-col lg:flex-row gap-8 items-center py-16;
+  /* Section Styles */
+  .section-padding {
+    @apply py-20 md:py-32;
+  }
+  
+  .container-width {
+    @apply container mx-auto px-4 md:px-8;
   }
 
-  .solution-card-reverse {
-    @apply flex flex-col lg:flex-row-reverse gap-8 items-center py-16;
+  /* Utility classes matching the design system */
+  .bg-brand-yellow {
+    background-color: hsl(var(--brand-yellow));
   }
-
-  /* Partner logo scroll */
-  .logo-scroll {
-    @apply flex items-center gap-12 animate-scroll;
+  
+  .text-brand-yellow {
+    color: hsl(var(--brand-yellow));
   }
-
-  /* Gold heading */
-  .heading-gold {
-    @apply text-accent font-bold;
+  
+  .bg-brand-green {
+    background-color: hsl(var(--brand-green));
   }
-
-  /* Navy heading */
-  .heading-navy {
-    @apply text-navy font-bold;
-  }
-
-  /* Section title */
-  .section-title {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-center;
-  }
-
-  /* Navigation link */
-  .nav-link {
-    @apply text-foreground hover:text-secondary transition-colors duration-200 font-medium;
-  }
-
-  /* Footer styles */
-  .footer-section {
-    @apply bg-navy text-white py-12;
-  }
-
-  /* Newsletter form */
-  .newsletter-input {
-    @apply px-4 py-3 border border-border rounded-sm bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-secondary;
-  }
-}
-
-@layer utilities {
-  /* Scroll animation for partner logos */
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
-  .animate-scroll {
-    animation: scroll 20s linear infinite;
-  }
-
-  /* Fade in up animation */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fadeInUp 0.6s ease-out forwards;
-  }
-
-  /* Slide in from right */
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  .animate-slide-in-right {
-    animation: slideInRight 0.6s ease-out forwards;
-  }
-
-  /* Hero text slide */
-  @keyframes heroSlide {
-    0%, 20% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    25%, 100% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-  }
-
-  /* Gradient text */
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(30 50% 45%) 0%, hsl(35 60% 55%) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Navy background utility */
-  .bg-navy {
-    background-color: hsl(220 70% 12%);
-  }
-
-  .bg-navy-light {
-    background-color: hsl(220 60% 18%);
-  }
-
-  .text-navy {
-    color: hsl(220 70% 12%);
-  }
-
-  .text-gold {
-    color: hsl(30 50% 45%);
-  }
-
-  .text-blue-accent {
-    color: hsl(210 100% 50%);
+  
+  .text-brand-green {
+    color: hsl(var(--brand-green));
   }
 }

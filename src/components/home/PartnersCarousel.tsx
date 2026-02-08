@@ -1,39 +1,52 @@
 import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 const partners = [
-  { name: 'AWS', color: '#FF9900' },
-  { name: 'Cloudflare', color: '#F38020' },
-  { name: 'Microsoft', color: '#00A4EF' },
-  { name: 'Acronis', color: '#E6000E' },
-  { name: 'Google Cloud', color: '#4285F4' },
-  { name: 'Fortinet', color: '#EE3124' },
+  { name: 'MSC' },
+  { name: 'Safmarine' },
+  { name: 'Maersk' },
+  { name: 'ZESCO' },
+  { name: 'Zambia Army' },
+  { name: 'Aman Shaffan' },
+  { name: 'JAE Engineering' },
+  { name: 'IRS Cargo' },
 ];
 
 export const PartnersCarousel = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section className="py-12 bg-muted overflow-hidden">
+    <section ref={ref} className="py-20 bg-black overflow-hidden">
+      <div className="container mx-auto px-4 mb-12">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-sm font-bold text-white/50 uppercase tracking-[0.3em] text-center font-heading"
+        >
+          Trusted by Industry Leaders
+        </motion.p>
+      </div>
       <div className="relative">
         <motion.div
-          className="flex items-center gap-16"
+          className="flex items-center gap-12"
           animate={{ x: ['0%', '-50%'] }}
           transition={{
             x: {
-              duration: 20,
+              duration: 30,
               repeat: Infinity,
               ease: 'linear',
             },
           }}
         >
-          {/* Double the partners for seamless loop */}
           {[...partners, ...partners].map((partner, index) => (
             <div
               key={`${partner.name}-${index}`}
-              className="flex-shrink-0 flex items-center justify-center w-32 h-20 bg-white rounded-lg shadow-sm"
+              className="flex-shrink-0 flex items-center justify-center min-w-[180px] h-20 border border-white/10 px-8 hover:border-primary/50 transition-colors duration-300"
             >
-              <span
-                className="text-xl font-bold"
-                style={{ color: partner.color }}
-              >
+              <span className="text-lg font-bold text-white/60 whitespace-nowrap font-heading uppercase tracking-wider hover:text-primary transition-colors duration-300">
                 {partner.name}
               </span>
             </div>

@@ -2,35 +2,35 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Building2, Factory, Landmark } from 'lucide-react';
 
-const newsItems = [
+const projects = [
   {
     id: 1,
-    category: 'Insights',
-    title: 'Case Study: A Comprehensive Cybersecurity Journey with MTS',
+    category: 'Hospitality',
+    title: 'Chacha Park & Kingfisher Lodge',
     excerpt:
-      'When Misr Technology Services (MTS) needed to strengthen their national trade platform, they partnered with Liquid C2 to elevate cybersecurity to international standards.',
-    date: '02/12/2025',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=400&fit=crop',
+      'Foundational projects including construction and renovation works, establishing our reputation for quality delivery.',
+    year: '2009-2011',
+    icon: Building2,
   },
   {
     id: 2,
-    category: 'News',
-    title: 'Liquid C2 expands Google Cloud access in Africa with AI-driven distribution programme',
+    category: 'Industrial',
+    title: 'Zambia Sugar & Modern Press',
     excerpt:
-      'Liquid C2 has announced the launch of its AI-powered Google Cloud distribution programme, known as Liquid G.',
-    date: '01/12/2025',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop',
+      'Long-term engagements providing industrial support and infrastructure development for major industrial players.',
+    year: '2009-2012',
+    icon: Factory,
   },
   {
     id: 3,
-    category: 'News',
-    title: 'Cloudmania recognised as the winner of 2025 Microsoft Egypt Partner of the Year Award',
+    category: 'Government',
+    title: 'Ministry of Science & Technology',
     excerpt:
-      'Cloudmania has won the 2025 Microsoft Partner of the Year Award for Egypt, demonstrating excellence in innovation.',
-    date: '24/11/2025',
-    image: 'https://images.unsplash.com/photo-1633419461186-7d40a38105ec?w=400&h=400&fit=crop',
+      'Service delivery and infrastructure support for government institutions, ensuring compliance and quality standards.',
+    year: '2010',
+    icon: Landmark,
   },
 ];
 
@@ -39,61 +39,70 @@ export const NewsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 bg-background">
+    <section ref={ref} className="py-32 bg-white">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-navy">
-            C2 News & Insights
+          <h2 className="text-4xl md:text-6xl font-bold font-heading text-black mb-4 uppercase">
+            Our Track Record
           </h2>
+          <div className="w-24 h-1 bg-primary mb-6"></div>
+          <p className="text-lg text-gray-500 max-w-2xl">
+            Over a decade of delivering reliable, high-quality services across Zambia.
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {newsItems.map((item, index) => (
+        <div className="grid md:grid-cols-3 gap-8">
+          {projects.map((item, index) => (
             <motion.article
               key={item.id}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="group cursor-pointer"
             >
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
+              <div className="h-64 bg-secondary/10 flex items-center justify-center mb-6 overflow-hidden group-hover:bg-secondary/20 transition-colors duration-500">
+                <item.icon className="w-20 h-20 text-secondary/30 group-hover:text-primary transition-colors duration-500 group-hover:scale-110 transform" />
               </div>
-              <div className="p-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
-                  {item.category}
-                </span>
-                <h3 className="text-lg font-bold text-navy mt-2 mb-3 line-clamp-2">
-                  <Link to="#" className="hover:text-secondary transition-colors">
-                    {item.title}
-                  </Link>
+              <div>
+                <div className="flex items-center gap-4 mb-3">
+                  <span className="text-xs font-bold uppercase tracking-widest text-primary">
+                    {item.category}
+                  </span>
+                  <span className="text-xs text-gray-400">{item.year}</span>
+                </div>
+                <h3 className="text-xl font-bold font-heading text-black mb-3 uppercase group-hover:text-secondary transition-colors">
+                  {item.title}
                 </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                <p className="text-gray-500 text-sm leading-relaxed mb-4">
                   {item.excerpt}
                 </p>
-                <div className="flex items-center justify-between">
-                  <Link
-                    to="#"
-                    className="text-secondary font-medium text-sm hover:underline inline-flex items-center gap-1"
-                  >
-                    Read More
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                  <span className="text-xs text-muted-foreground">{item.date}</span>
-                </div>
+                <Link
+                  to="/projects"
+                  className="text-primary font-bold text-sm uppercase tracking-wider inline-flex items-center gap-2 group-hover:gap-3 transition-all"
+                >
+                  View Projects
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </motion.article>
           ))}
         </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-16"
+        >
+          <Link to="/projects" className="btn-primary inline-flex items-center gap-2">
+            View All Projects <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

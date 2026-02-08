@@ -1,69 +1,104 @@
-import { SolutionCard } from './SolutionCard';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 const solutions = [
   {
-    title: 'We Empower',
-    subtitle: 'Productivity Tools',
+    title: 'MINING SUPPORT',
+    subtitle: 'INDUSTRIAL EXCELLENCE',
     description:
-      "An employee is only as productive as his tools, and that statement is increasingly true in this digital age. Therefore, having access to such technology is pivotal for success with cloud-backed workplace application suites and applications tailored to automate mundane work. A highly productive workforce is critical to a successful organisation.",
-    features: ['OneVoice', 'Microsoft 365', 'Exchange Online', 'Dynamics 365'],
-    learnMoreLink: '/empower',
-    imageSrc: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop',
-    imageAlt: 'Team collaboration',
+      "Veatiger General Dealers is well-positioned to support Zambia’s mining sector through a range of reliable and cost-effective services. With years of experience supplying industrial materials, engineering support, and logistics solutions, we are the partner of choice for major mining operations.",
+    learnMoreLink: '/services',
+    imageSrc: 'https://images.unsplash.com/photo-1579547945413-497e1b99dac0?q=80&w=2070&auto=format&fit=crop',
+    imageAlt: 'Mining Support',
   },
   {
-    title: 'We Connect',
-    subtitle: 'Cloud Connectivity',
+    title: 'TRANSPORT & LOGISTICS',
+    subtitle: 'MOVING AFRICA',
     description:
-      "C2 has a suite of connectivity products and services that connect you to strategically located data centres and offer unrivalled cloud solutions. This bouquet of products and services ensure exceptional cloud experiences and rich, evolving connectivity solutions.",
-    features: ['Liquid Edge', 'Microsoft ExpressRoute', 'Microsoft Azure Peering Service', 'Microsoft 365Direct'],
-    learnMoreLink: '/connect',
-    imageSrc: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop',
-    imageAlt: 'Cloud connectivity',
+      "We boast a well-maintained fleet of 72 trucks, including long haul tri-axle trailers registered for container transportation. Our fleet handles everything from large consignments to smaller loads for consolidation, ensuring your goods reach their destination safely and on time.",
+    learnMoreLink: '/services',
+    imageSrc: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop',
+    imageAlt: 'Transport and Logistics',
     reverse: true,
   },
   {
-    title: 'We Secure',
-    subtitle: 'Cyber Security',
+    title: 'CIVIL ENGINEERING',
+    subtitle: 'INFRASTRUCTURE DEVELOPMENT',
     description:
-      "As organisational data becomes increasingly important to help you understand your business, threat actors have become increasingly active to disrupt your workflow. It is crucial to your business sustainability to deploy smart backup and disaster recovery measures.",
-    features: ['Security Consulting Services', 'Product Solutions & Services', 'Managed Security Services', 'Security Operation Centre'],
-    learnMoreLink: '/secure',
-    imageSrc: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop',
-    imageAlt: 'Cyber security',
+      "Our team of experts offers design, engineering, and project management services for civil engineering projects. From earthworks and concrete works to structural steel, we deliver infrastructure that stands the test of time.",
+    learnMoreLink: '/services',
+    imageSrc: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop',
+    imageAlt: 'Civil Engineering',
   },
   {
-    title: 'We Expand',
-    subtitle: 'Cloud Platforms',
+    title: 'GENERAL SUPPLY',
+    subtitle: 'ESSENTIAL SOLUTIONS',
     description:
-      "Whether your organisation is just migrating to the cloud or every team member is actively leveraging the cloud platform for daily operations, cloud-based solutions have firmly influenced the professional world. With cloud services, you can work any time, from anywhere.",
-    features: ['Microsoft Azure', 'Amazon Web Services', 'Google Cloud', 'Liquid Site Builder'],
-    learnMoreLink: '/expand',
-    imageSrc: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop',
-    imageAlt: 'Cloud platforms',
+      "We offer comprehensive supply solutions ranging from office equipment and stationery to hardware and food supplies. We ensure your business has everything it needs to function smoothly, allowing you to focus on your core operations.",
+    learnMoreLink: '/services',
+    imageSrc: 'https://images.unsplash.com/photo-1586769852044-692d6e3703f0?q=80&w=2070&auto=format&fit=crop',
+    imageAlt: 'General Supply',
     reverse: true,
-  },
-  {
-    title: 'We Advise',
-    subtitle: 'Professional Services',
-    description:
-      "Leverage years of Managed Services Provider expertise managing various businesses have allowed us unique insight into a business process. As a result, we can help identify system vulnerabilities and provide lasting solutions.",
-    features: ['Discovery Services', 'Planning Services', 'Deployment Services', 'Support Services', 'Titanium Cloud Management'],
-    learnMoreLink: '/advise',
-    imageSrc: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
-    imageAlt: 'Professional services',
   },
 ];
 
+const SolutionItem = ({ title, subtitle, description, learnMoreLink, imageSrc, imageAlt, reverse = false }: any) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+    return (
+        <div ref={ref} className="py-24 overflow-hidden">
+            <div className="container mx-auto px-4">
+                <div className={`flex flex-col lg:flex-row gap-12 lg:gap-24 items-center ${reverse ? 'lg:flex-row-reverse' : ''}`}>
+                    {/* Text Content */}
+                    <motion.div 
+                        className="flex-1"
+                        initial={{ opacity: 0, x: reverse ? 50 : -50 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h3 className="text-primary font-bold tracking-widest uppercase mb-2 text-sm">{title}</h3>
+                        <h2 className="text-4xl md:text-5xl font-bold font-heading text-secondary mb-8 leading-tight">{subtitle}</h2>
+                        <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
+                            {description}
+                        </p>
+                        <Link to={learnMoreLink} className="btn-primary inline-flex items-center gap-2 text-sm">
+                            Learn More <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    </motion.div>
+
+                    {/* Image */}
+                    <motion.div 
+                        className="flex-1 w-full"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                    >
+                        <div className="relative aspect-[4/3] overflow-hidden rounded-sm shadow-2xl">
+                            <img 
+                                src={imageSrc} 
+                                alt={imageAlt} 
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export const SolutionsSection = () => {
   return (
-    <>
-      {solutions.map((solution) => (
-        <SolutionCard
-          key={solution.title}
-          {...solution}
-        />
+    <section className="bg-white">
+      {solutions.map((solution, index) => (
+        <div key={solution.title} className={index % 2 === 1 ? "bg-muted/30" : ""}>
+            <SolutionItem {...solution} />
+        </div>
       ))}
-    </>
+    </section>
   );
 };

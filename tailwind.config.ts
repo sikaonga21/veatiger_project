@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Montserrat', 'sans-serif'],
+        heading: ['"Zuume Edge"', 'Oswald', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -50,28 +51,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
         navy: {
-          DEFAULT: "hsl(220 70% 12%)",
+          DEFAULT: "hsl(220 70% 12%)", // Keeping for legacy, but should migrate to secondary/black
           light: "hsl(220 60% 18%)",
           dark: "hsl(220 75% 8%)",
-        },
-        gold: {
-          DEFAULT: "hsl(30 50% 45%)",
-          light: "hsl(35 60% 55%)",
-        },
-        "blue-accent": {
-          DEFAULT: "hsl(210 100% 50%)",
-          light: "hsl(200 100% 70%)",
         },
       },
       borderRadius: {
