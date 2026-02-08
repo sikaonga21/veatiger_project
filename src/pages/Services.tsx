@@ -11,7 +11,7 @@ const services = [
         title: "Mining",
         icon: Mountains,
         description: "Veatiger General Dealers is well-positioned to support Zambia's mining sector through a range of reliable and cost-effective services. With years of experience supplying industrial materials, engineering support, and logistics solutions to both government and private entities, we bring proven capability and efficiency to mining operations. Backed by a strong supply chain network and commitment to compliance and safety standards, Veatiger is a trusted partner in the mining industry.",
-        image: "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?q=80&w=2070&auto=format&fit=crop"
+        image: "/melting.jpg"
     },
     {
         title: "Transport and Logistics",
@@ -41,7 +41,7 @@ const services = [
         title: "Hardware Supplies",
         icon: Wrench,
         description: "We offer essential construction materials including cement, sand, bricks, and tiles for both small and large projects. Our products are sourced from reliable suppliers to ensure quality and durability. Our plumbing supplies include pipes, faucets, fittings, and plumbing tools. These high-quality products are perfect for installations, repairs, and maintenance of water and gas systems. We also provide electrical supplies such as wires, cables, circuit breakers, and lighting fixtures.",
-        image: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?q=80&w=2070&auto=format&fit=crop"
+        image: "/helmet.jpeg"
     },
     {
         title: "Food Supplies",
