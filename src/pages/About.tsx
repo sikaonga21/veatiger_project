@@ -3,7 +3,7 @@ import { Footer } from '@/components/layout/Footer';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { CheckCircle2, Target, Eye, Award } from "lucide-react";
+import { CheckCircle, Target, Eye, Trophy } from "phosphor-react";
 import { Link } from 'react-router-dom';
 
 const values = [
@@ -62,7 +62,7 @@ const About = () => {
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-                    <div className="absolute inset-0 flex items-center">
+                    <div className="absolute inset-0 flex items-center pt-20 lg:pt-24">
                         <div className="container mx-auto px-4">
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
@@ -103,7 +103,7 @@ const About = () => {
                                     text: "To become the top choice for clients and employees seeking long term business relationships through exceptional service delivery and market leadership by 2030."
                                 },
                                 {
-                                    icon: Award,
+                                    icon: Trophy,
                                     title: "Our Heritage",
                                     text: "Founded in 2012, VEATIGER has evolved into a leader in construction and infrastructure, offering world-class services nationally and internationally."
                                 }
@@ -170,7 +170,7 @@ const About = () => {
                                 <SectionObserver key={index}>
                                     <div className="bg-black p-10 h-full group hover:bg-white/5 transition-colors duration-300">
                                         <div className="flex items-start gap-4 mb-4">
-                                            <CheckCircle2 className="w-6 h-6 text-primary shrink-0 mt-1" />
+                                            <CheckCircle className="w-6 h-6 text-primary shrink-0 mt-1" weight="fill" />
                                             <h3 className="text-xl font-bold font-heading text-white uppercase tracking-wider">{value.title}</h3>
                                         </div>
                                         <p className="text-gray-400 leading-relaxed pl-10">

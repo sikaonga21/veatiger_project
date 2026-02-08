@@ -3,7 +3,7 @@ import { Footer } from '@/components/layout/Footer';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { MapPin, Phone, Mail, Building } from "lucide-react";
+import { MapPin, Phone, Envelope, Buildings } from "phosphor-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,7 +37,7 @@ const Contact = () => {
                         className="w-full h-full object-cover opacity-50"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-                    <div className="absolute inset-0 flex items-center">
+                    <div className="absolute inset-0 flex items-center pt-20 lg:pt-24">
                         <div className="container mx-auto px-4">
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
@@ -74,7 +74,7 @@ const Contact = () => {
                                     <SectionObserver>
                                         <div className="p-8 bg-muted/50 border-l-4 border-primary hover:bg-muted transition-colors duration-300">
                                             <h3 className="text-xl font-bold font-heading text-black mb-4 flex items-center gap-3 uppercase">
-                                                <Building className="w-5 h-5 text-primary" /> Head Office
+                                                <Buildings className="w-5 h-5 text-primary" weight="bold" /> Head Office
                                             </h3>
                                             <div className="space-y-3 text-gray-600 pl-8">
                                                 <p className="flex items-start gap-3">
@@ -86,7 +86,7 @@ const Contact = () => {
                                                     +260 95 6431291 / +260 96 3627768
                                                 </p>
                                                 <p className="flex items-center gap-3">
-                                                    <Mail className="w-4 h-4 text-primary" />
+                                                    <Envelope className="w-4 h-4 text-primary" />
                                                     info@veatiger.com
                                                 </p>
                                             </div>
@@ -97,7 +97,7 @@ const Contact = () => {
                                     <SectionObserver>
                                         <div className="p-8 bg-muted/50 border-l-4 border-primary hover:bg-muted transition-colors duration-300">
                                             <h3 className="text-xl font-bold font-heading text-black mb-4 flex items-center gap-3 uppercase">
-                                                <Building className="w-5 h-5 text-primary" /> Branch Office
+                                                <Buildings className="w-5 h-5 text-primary" weight="bold" /> Branch Office
                                             </h3>
                                             <div className="space-y-3 text-gray-600 pl-8">
                                                 <p className="flex items-start gap-3">
@@ -109,7 +109,7 @@ const Contact = () => {
                                                     +260 963 627768
                                                 </p>
                                                 <p className="flex items-center gap-3">
-                                                    <Mail className="w-4 h-4 text-primary" />
+                                                    <Envelope className="w-4 h-4 text-primary" weight="fill" />
                                                     info@veatiger.com
                                                 </p>
                                             </div>
@@ -120,7 +120,7 @@ const Contact = () => {
                                     <SectionObserver>
                                         <div className="p-8 bg-muted/50 border-l-4 border-primary hover:bg-muted transition-colors duration-300">
                                             <h3 className="text-xl font-bold font-heading text-black mb-4 flex items-center gap-3 uppercase">
-                                                <Building className="w-5 h-5 text-primary" /> Copperbelt Office
+                                                <Buildings className="w-5 h-5 text-primary" weight="bold" /> Copperbelt Office
                                             </h3>
                                             <div className="space-y-3 text-gray-600 pl-8">
                                                 <p className="flex items-start gap-3">
@@ -128,7 +128,7 @@ const Contact = () => {
                                                     <span>ECL Business Park, Office Block 2, Second Floor<br />Freedom Way - Kitwe</span>
                                                 </p>
                                                 <p className="flex items-center gap-3">
-                                                    <Mail className="w-4 h-4 text-primary" />
+                                                    <Envelope className="w-4 h-4 text-primary" weight="fill" />
                                                     mining@veatiger.com
                                                 </p>
                                             </div>

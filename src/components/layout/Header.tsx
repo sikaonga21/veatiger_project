@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Search } from 'lucide-react';
+import { List, X, MagnifyingGlass } from 'phosphor-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
@@ -8,7 +8,7 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
   { href: '/projects', label: 'Projects' },
-  // { href: '/careers', label: 'Careers' },
+  { href: '/careers', label: 'Careers' },
 ];
 
 export const Header = () => {
@@ -38,7 +38,7 @@ export const Header = () => {
             <img
               src="/logo.png"
               alt="Veatiger Logo"
-              className={`h-16 w-auto object-contain transition-all duration-500 ${
+              className={`h-14 lg:h-20 w-auto object-contain transition-all duration-500 ${
                 scrolled ? 'brightness-0 invert' : ''
               }`}
             />
@@ -50,7 +50,7 @@ export const Header = () => {
               <div key={link.label} className="relative group">
                 <Link
                   to={link.href}
-                  className="text-sm font-bold uppercase tracking-wider font-heading text-white"
+                  className="text-base font-medium uppercase tracking-wider font-heading text-white"
                 >
                   {link.label}
                 </Link>
@@ -60,7 +60,7 @@ export const Header = () => {
 
             {/* Search */}
             <button className="p-2 rounded-full transition-colors group">
-              <Search className="w-5 h-5 text-white/70 group-hover:text-primary transition-colors" />
+              <MagnifyingGlass className="w-5 h-5 text-white/70 group-hover:text-primary transition-colors" />
             </button>
 
             {/* CTA Button */}
@@ -76,9 +76,9 @@ export const Header = () => {
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <X className="w-8 h-8" />
+              <X className="w-8 h-8" weight="bold" />
             ) : (
-              <Menu className="w-8 h-8" />
+              <List className="w-8 h-8" weight="bold" />
             )}
           </button>
         </div>

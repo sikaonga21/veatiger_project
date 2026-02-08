@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { CheckCircle2, ShieldCheck, Users, Globe, Wrench, Briefcase } from 'lucide-react';
+import { CheckCircle, ShieldCheck, Users, Globe, Wrench, Briefcase } from 'phosphor-react';
 
 const reasons = [
   {
@@ -32,7 +32,7 @@ const reasons = [
   {
     title: "COMPREHENSIVE SERVICES",
     description: "A one-stop-shop for transport, logistics, construction, and civil engineering needs.",
-    icon: CheckCircle2
+    icon: CheckCircle
   }
 ];
 

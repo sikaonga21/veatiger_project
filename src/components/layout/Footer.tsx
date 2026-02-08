@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { FacebookLogo, TwitterLogo, LinkedinLogo, Envelope, Phone, MapPin } from 'phosphor-react';
 
 export const Footer = () => {
   return (
@@ -16,13 +16,13 @@ export const Footer = () => {
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="p-3 bg-white/5 hover:bg-primary hover:text-black rounded-sm transition-all duration-300 text-white">
-                <Facebook className="w-5 h-5" />
+                <FacebookLogo className="w-5 h-5" weight="fill" />
               </a>
               <a href="#" className="p-3 bg-white/5 hover:bg-primary hover:text-black rounded-sm transition-all duration-300 text-white">
-                <Twitter className="w-5 h-5" />
+                <TwitterLogo className="w-5 h-5" weight="fill" />
               </a>
               <a href="#" className="p-3 bg-white/5 hover:bg-primary hover:text-black rounded-sm transition-all duration-300 text-white">
-                <Linkedin className="w-5 h-5" />
+                <LinkedinLogo className="w-5 h-5" weight="fill" />
               </a>
             </div>
           </div>
@@ -54,7 +54,7 @@ export const Footer = () => {
             <h3 className="text-xl font-bold font-heading mb-8 text-white uppercase tracking-wider">Our Services</h3>
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="hover:text-primary transition-colors cursor-default">Mining Support</li>
-              <li className="hover:text-primary transition-colors cursor-default">Transport & Logistics</li>
+              <li className="hover:text-primary transition-colors cursor-default">Transport and Logistics</li>
               <li className="hover:text-primary transition-colors cursor-default">Civil Engineering</li>
               <li className="hover:text-primary transition-colors cursor-default">Building Construction</li>
               <li className="hover:text-primary transition-colors cursor-default">General Supply</li>
@@ -67,17 +67,17 @@ export const Footer = () => {
             <h3 className="text-xl font-bold font-heading mb-8 text-white uppercase tracking-wider">Contact Us</h3>
             <ul className="space-y-6 text-sm">
               <li className="flex items-start gap-4">
-                <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" weight="fill" />
                 <span className="text-gray-400">
                   Head Office: Plot No. 251 Ngwerere Rd, Longacres - Lusaka
                 </span>
               </li>
               <li className="flex items-center gap-4">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
+                <Phone className="w-5 h-5 text-primary shrink-0" weight="fill" />
                 <span className="text-gray-400">+260 95 6431291</span>
               </li>
               <li className="flex items-center gap-4">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
+                <Envelope className="w-5 h-5 text-primary shrink-0" weight="fill" />
                 <span className="text-gray-400">info@veatiger.com</span>
               </li>
             </ul>
@@ -92,7 +92,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-6 mt-6 text-center text-xs text-gray-600">
+        <div className="border-t border-white/10 pt-6 mt-6 text-center text-sm text-gray-500">
           <p>
             Created by{' '}
             <a 

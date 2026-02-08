@@ -4,49 +4,49 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Truck, Pickaxe, Hammer, HardHat, ShoppingCart, Utensils, Wrench, ArrowRight } from "lucide-react";
+import { Truck, Mountains, Wall, GearSix, ShoppingCart, ForkKnife, Wrench, ArrowRight } from "phosphor-react";
 
 const services = [
     {
         title: "Mining",
-        icon: Pickaxe,
-        description: "Veatiger General Dealers is well-positioned to support Zambia's mining sector through a range of reliable and cost-effective services. With years of experience supplying industrial materials, engineering support, and logistics solutions to both government and private entities, we bring proven capability and efficiency to mining operations.",
+        icon: Mountains,
+        description: "Veatiger General Dealers is well-positioned to support Zambia's mining sector through a range of reliable and cost-effective services. With years of experience supplying industrial materials, engineering support, and logistics solutions to both government and private entities, we bring proven capability and efficiency to mining operations. Backed by a strong supply chain network and commitment to compliance and safety standards, Veatiger is a trusted partner in the mining industry.",
         image: "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?q=80&w=2070&auto=format&fit=crop"
     },
     {
-        title: "Transport & Logistics",
+        title: "Transport and Logistics",
         icon: Truck,
-        description: "VEATIGER boasts a well-maintained fleet of 72 trucks, including long haul tri-axle trailers registered for container transportation with MSC, SAFMARIME, and Maersk. Our fleet handles everything from large consignments to smaller loads for consolidation.",
+        description: "In the transport and logistics business, VEATIGER boasts of a well-maintained fleet of 72 trucks, including long haul tri-axle trailers that are registered for container transportation with reputable companies such as Mediterranean Shipping Company (MSC), SAFMARIME, and Maersk. In addition, the company has a fleet of 4 x 7 tonners' trucks that complement the larger fleet by handling smaller consignments into the depot for consolidation and onward loading onto bigger trucks, ensuring efficient and timely deliveries to final destinations.",
         image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop"
     },
     {
         title: "Building Construction",
-        icon: Hammer,
-        description: "Our construction division delivers quality building projects for residential, commercial, and industrial clients. We bring expertise in project management, material sourcing, and skilled labour to every project.",
+        icon: Wall,
+        description: "Our construction division delivers quality building projects for residential, commercial, and industrial clients. We bring expertise in project management, material sourcing, and skilled labour to every project, ensuring on-time delivery and exceptional workmanship.",
         image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop"
     },
     {
         title: "Civil Engineering",
-        icon: HardHat,
-        description: "Our team of experts offers design, engineering, and project management services for civil engineering projects, including earthworks, concrete works, and structural steel works across mining, oil and gas, and power generation sectors.",
+        icon: GearSix,
+        description: "Our company provides civil engineering services to clients in various sectors, including mining, oil and gas, and power generation. Our team of experts offers design, engineering, and project management services for civil engineering projects, including earthworks, concrete works, and structural steel works.",
         image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
     },
     {
         title: "General Supply",
         icon: ShoppingCart,
-        description: "We recognize the critical role that reliable office supplies, equipment, and cleaning materials play in day-to-day operations. Our Office Supplies and Services are designed to enhance efficiency, productivity, and cleanliness in workplaces of all sizes.",
+        description: "We recognize the critical role that reliable office supplies, office equipment, and cleaning materials play in the day-to-day operations of any business. Our Office Supplies and Services are designed to enhance efficiency, productivity, and cleanliness in workplaces of all sizes. We offer a wide selection of high-quality stationery, office equipment, and cleaning tools, ensuring your business has everything it needs to function smoothly and maintain a professional environment.",
         image: "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?q=80&w=2070&auto=format&fit=crop"
     },
     {
         title: "Hardware Supplies",
         icon: Wrench,
-        description: "We offer essential construction materials including cement, sand, bricks, and tiles. Our plumbing supplies include pipes, faucets, fittings, and tools. We also provide electrical supplies such as wires, cables, circuit breakers, and lighting fixtures.",
+        description: "We offer essential construction materials including cement, sand, bricks, and tiles for both small and large projects. Our products are sourced from reliable suppliers to ensure quality and durability. Our plumbing supplies include pipes, faucets, fittings, and plumbing tools. These high-quality products are perfect for installations, repairs, and maintenance of water and gas systems. We also provide electrical supplies such as wires, cables, circuit breakers, and lighting fixtures.",
         image: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?q=80&w=2070&auto=format&fit=crop"
     },
     {
         title: "Food Supplies",
-        icon: Utensils,
-        description: "We offer a variety of grains and dry foods, fresh produce including vegetables and fruits, as well as fresh meat, poultry, and fish — providing high-quality nutrition for institutions and businesses across the region.",
+        icon: ForkKnife,
+        description: "We offer a variety of grains and dry foods, including maize, rice, beans, and groundnuts. These staple items provide essential nutrition and energy for meals. Our fresh produce includes a wide range of vegetables such as onions, potatoes, tomatoes, and cabbages, as well as fruits like bananas, apples, and oranges. We supply a selection of fresh meat and meat products, including beef, chicken, sausages, and processed meats, and fish providing high-quality protein for your meals.",
         image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=2070&auto=format&fit=crop"
     }
 ];
@@ -57,9 +57,9 @@ const ServiceItem = ({ service, index }: { service: typeof services[0]; index: n
     const reverse = index % 2 === 1;
 
     return (
-        <div ref={ref} className={`py-24 ${reverse ? 'bg-muted/30' : 'bg-white'}`}>
+        <div ref={ref} className={`py-20 md:py-24 ${reverse ? 'bg-muted/30' : 'bg-white'} overflow-hidden`}>
             <div className="container mx-auto px-4">
-                <div className={`flex flex-col lg:flex-row gap-16 lg:gap-24 items-center ${reverse ? 'lg:flex-row-reverse' : ''}`}>
+                <div className={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${reverse ? 'lg:flex-row-reverse' : ''}`}>
                     {/* Text */}
                     <motion.div
                         className="flex-1"
@@ -68,8 +68,8 @@ const ServiceItem = ({ service, index }: { service: typeof services[0]; index: n
                         transition={{ duration: 0.8 }}
                     >
                         <div className="flex items-center gap-4 mb-6">
-                            <service.icon className="w-8 h-8 text-primary" />
-                            <h2 className="text-4xl md:text-5xl font-bold font-heading text-black uppercase leading-tight">
+                            <service.icon className="w-8 h-8 text-primary" weight="bold" />
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-black uppercase leading-tight">
                                 {service.title}
                             </h2>
                         </div>
@@ -78,7 +78,7 @@ const ServiceItem = ({ service, index }: { service: typeof services[0]; index: n
                             {service.description}
                         </p>
                         <Link to="/contact" className="btn-primary inline-flex items-center gap-2 text-sm">
-                            Request a Quote <ArrowRight className="w-4 h-4" />
+                            Request a Quote <ArrowRight className="w-4 h-4" weight="bold" />
                         </Link>
                     </motion.div>
 
@@ -105,18 +105,18 @@ const ServiceItem = ({ service, index }: { service: typeof services[0]; index: n
 
 const Services = () => {
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col overflow-x-hidden">
             <Header />
             <main className="flex-1">
                 {/* Hero Section */}
                 <section className="relative h-[60vh] min-h-[400px] bg-black overflow-hidden">
                     <img
-                        src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop"
+                        src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop"
                         alt="Our Services"
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-                    <div className="absolute inset-0 flex items-center">
+                    <div className="absolute inset-0 flex items-center pt-20 lg:pt-24">
                         <div className="container mx-auto px-4">
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
@@ -133,7 +133,7 @@ const Services = () => {
                     </div>
                 </section>
 
-                {/* Services - Alternating layout */}
+                {/* Services - Alternating layout with images */}
                 {services.map((service, index) => (
                     <ServiceItem key={service.title} service={service} index={index} />
                 ))}

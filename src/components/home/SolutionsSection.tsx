@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'phosphor-react';
 
 const solutions = [
   {
@@ -15,7 +15,7 @@ const solutions = [
     imageAlt: 'Mining Support',
   },
   {
-    title: 'TRANSPORT & LOGISTICS',
+    title: 'TRANSPORT AND LOGISTICS',
     subtitle: 'MOVING AFRICA',
     description:
       "We boast a well-maintained fleet of 72 trucks, including long haul tri-axle trailers registered for container transportation. Our fleet handles everything from large consignments to smaller loads for consolidation, ensuring your goods reach their destination safely and on time.",

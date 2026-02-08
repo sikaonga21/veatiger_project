@@ -53,7 +53,7 @@ export const HeroSection = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 h-full relative z-10 flex items-center">
+      <div className="container mx-auto px-4 h-full relative z-10 flex items-center pt-20 lg:pt-24">
         <div className="max-w-4xl">
           <AnimatePresence mode="wait">
             <motion.div
