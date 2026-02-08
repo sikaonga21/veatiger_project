@@ -23,7 +23,7 @@ const services = [
         title: "Building Construction",
         icon: Wall,
         description: "Our construction division delivers quality building projects for residential, commercial, and industrial clients. We bring expertise in project management, material sourcing, and skilled labour to every project, ensuring on-time delivery and exceptional workmanship.",
-        image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop"
+        image: "/const.jpeg"
     },
     {
         title: "Civil Engineering",
@@ -41,7 +41,7 @@ const services = [
         title: "Hardware Supplies",
         icon: Wrench,
         description: "We offer essential construction materials including cement, sand, bricks, and tiles for both small and large projects. Our products are sourced from reliable suppliers to ensure quality and durability. Our plumbing supplies include pipes, faucets, fittings, and plumbing tools. These high-quality products are perfect for installations, repairs, and maintenance of water and gas systems. We also provide electrical supplies such as wires, cables, circuit breakers, and lighting fixtures.",
-        image: "/helmet.jpeg"
+        image: "/hardware.jpeg"
     },
     {
         title: "Food Supplies",
