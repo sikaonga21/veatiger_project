@@ -25,11 +25,10 @@ export const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
           ? 'bg-black shadow-lg'
           : 'bg-transparent'
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-24 lg:h-28">
@@ -38,9 +37,8 @@ export const Header = () => {
             <img
               src="/logo.png"
               alt="Veatiger Logo"
-              className={`h-24 lg:h-28 w-auto object-contain transition-all duration-500 ${
-                scrolled ? 'brightness-0 invert' : ''
-              }`}
+              className={`h-28 lg:h-40 w-auto object-contain transition-all duration-500 ${scrolled ? 'brightness-0 invert' : ''
+                }`}
             />
           </Link>
 
