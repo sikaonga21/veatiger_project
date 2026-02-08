@@ -7,28 +7,28 @@ import { CheckCircle, Target, Eye, Trophy } from "phosphor-react";
 import { Link } from 'react-router-dom';
 
 const values = [
-    {
-        title: "Client Focus",
-        description: "We prioritize our clients and strive to provide them with the best possible solutions and service, tailored to their specific needs."
-    },
-    {
-        title: "Communication",
+                                {
+                                    title: "Client Focus",
+                                    description: "We prioritize our clients and strive to provide them with the best possible solutions and service, tailored to their specific needs."
+                                },
+                                {
+                                    title: "Communication",
         description: "We believe in clear and open communication with clients, ensuring that they are kept informed at every stage of a project or transaction."
-    },
-    {
-        title: "Excellence",
-        description: "We maintain high standards of quality and performance in all aspects of our business operations, from project delivery to customer service."
-    },
-    {
-        title: "Integrity",
+                                },
+                                {
+                                    title: "Excellence",
+                                    description: "We maintain high standards of quality and performance in all aspects of our business operations, from project delivery to customer service."
+                                },
+                                {
+                                    title: "Integrity",
         description: "We conduct ourselves with honesty, transparency, and accountability in all our dealings with clients, partners, and stakeholders."
-    },
-    {
-        title: "Innovation",
+                                },
+                                {
+                                    title: "Innovation",
         description: "We continuously seek new and innovative ways to improve our products, services, and processes, and stay ahead of the curve."
-    },
-    {
-        title: "Collaboration",
+                                },
+                                {
+                                    title: "Collaboration",
         description: "We foster a culture of teamwork and collaboration, working closely with clients, partners, and colleagues to achieve shared goals."
     }
 ];
@@ -172,11 +172,11 @@ const About = () => {
                                         <div className="flex items-start gap-4 mb-4">
                                             <CheckCircle className="w-6 h-6 text-primary shrink-0 mt-1" weight="fill" />
                                             <h3 className="text-xl font-bold font-heading text-white uppercase tracking-wider">{value.title}</h3>
-                                        </div>
-                                        <p className="text-gray-400 leading-relaxed pl-10">
-                                            {value.description}
-                                        </p>
                                     </div>
+                                        <p className="text-gray-400 leading-relaxed pl-10">
+                                        {value.description}
+                                    </p>
+                                </div>
                                 </SectionObserver>
                             ))}
                         </div>

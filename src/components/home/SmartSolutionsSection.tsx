@@ -60,10 +60,10 @@ export const SmartSolutionsSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reasons.map((reason, index) => (
-            <motion.div
+        <motion.div
               key={reason.title}
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white/5 p-8 rounded-sm hover:bg-white/10 transition-colors border border-white/10 group"
             >
@@ -73,10 +73,10 @@ export const SmartSolutionsSection = () => {
               <h3 className="text-xl font-bold font-heading text-white mb-4 tracking-wide">{reason.title}</h3>
               <p className="text-white/70 leading-relaxed">
                 {reason.description}
-              </p>
-            </motion.div>
+          </p>
+        </motion.div>
           ))}
-        </div>
+            </div>
       </div>
     </section>
   );

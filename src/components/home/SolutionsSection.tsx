@@ -11,7 +11,7 @@ const solutions = [
     description:
       "Veatiger General Dealers is well-positioned to support Zambia’s mining sector through a range of reliable and cost-effective services. With years of experience supplying industrial materials, engineering support, and logistics solutions, we are the partner of choice for major mining operations.",
     learnMoreLink: '/services',
-    imageSrc: 'https://images.unsplash.com/photo-1579547945413-497e1b99dac0?q=80&w=2070&auto=format&fit=crop',
+    imageSrc: '/mine 6.jpeg',
     imageAlt: 'Mining Support',
   },
   {

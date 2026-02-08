@@ -17,7 +17,7 @@ const services = [
         title: "Transport and Logistics",
         icon: Truck,
         description: "In the transport and logistics business, VEATIGER boasts of a well-maintained fleet of 72 trucks, including long haul tri-axle trailers that are registered for container transportation with reputable companies such as Mediterranean Shipping Company (MSC), SAFMARIME, and Maersk. In addition, the company has a fleet of 4 x 7 tonners' trucks that complement the larger fleet by handling smaller consignments into the depot for consolidation and onward loading onto bigger trucks, ensuring efficient and timely deliveries to final destinations.",
-        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop"
+        image: "/trucks.jpeg"
     },
     {
         title: "Building Construction",
@@ -29,7 +29,7 @@ const services = [
         title: "Civil Engineering",
         icon: GearSix,
         description: "Our company provides civil engineering services to clients in various sectors, including mining, oil and gas, and power generation. Our team of experts offers design, engineering, and project management services for civil engineering projects, including earthworks, concrete works, and structural steel works.",
-        image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
+        image: "/C-engi.jpeg"
     },
     {
         title: "General Supply",
@@ -142,7 +142,7 @@ const Services = () => {
                 <section className="py-24 bg-primary">
                     <div className="container mx-auto px-4">
                         <h2 className="text-4xl md:text-6xl font-bold font-heading text-black mb-6 uppercase">
-                            LET'S BUILD TOGETHER
+                            LET US BUILD TOGETHER
                         </h2>
                         <p className="text-xl text-black/80 mb-10 font-light max-w-2xl">
                             Whatever your project requirements, we have the experience and capability to deliver results.

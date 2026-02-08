@@ -32,13 +32,13 @@ export const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20 lg:h-24">
+        <div className="flex items-center justify-between h-24 lg:h-28">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <img
               src="/logo.png"
               alt="Veatiger Logo"
-              className={`h-14 lg:h-20 w-auto object-contain transition-all duration-500 ${
+              className={`h-24 lg:h-28 w-auto object-contain transition-all duration-500 ${
                 scrolled ? 'brightness-0 invert' : ''
               }`}
             />

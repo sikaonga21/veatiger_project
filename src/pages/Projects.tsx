@@ -87,8 +87,8 @@ const Projects = () => {
                                 transition={{ duration: 0.8 }}
                             >
                                 <Badge className="mb-6 bg-primary text-black hover:bg-primary/90 text-sm py-1.5 px-5 font-bold uppercase tracking-wider rounded-none">
-                                    Since 2009
-                                </Badge>
+                            Since 2009
+                        </Badge>
                                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-heading text-white uppercase tracking-tight mb-4">
                                     Our Projects
                                 </h1>
@@ -104,45 +104,45 @@ const Projects = () => {
                 {/* Timeline/Portfolio Sections */}
                 {projects.map((group, gIndex) => (
                     <section key={gIndex} className={`py-24 overflow-hidden ${gIndex % 2 === 1 ? 'bg-muted/30' : 'bg-white'}`}>
-                        <div className="container mx-auto px-4">
+                    <div className="container mx-auto px-4">
                             <SectionObserver>
                                 <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-12 pb-6 border-b-2 border-black/10">
                                     <div>
                                         <h2 className="text-4xl md:text-5xl font-bold font-heading text-black uppercase">{group.category}</h2>
                                         <p className="text-gray-500 mt-2 text-lg">{group.description}</p>
-                                    </div>
+                                        </div>
                                     <span className="text-3xl font-bold font-heading text-primary whitespace-nowrap">
-                                        {group.period}
+                                            {group.period}
                                     </span>
-                                </div>
+                                    </div>
                             </SectionObserver>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {group.items.map((project, pIndex) => (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {group.items.map((project, pIndex) => (
                                     <SectionObserver key={pIndex} delay={pIndex * 0.1} direction={pIndex % 2 === 0 ? "left" : "right"}>
                                         <div className="group overflow-hidden border border-black/5 hover:border-primary/50 transition-all duration-300 bg-white hover:shadow-lg">
                                             <div className="h-48 bg-secondary/5 relative flex items-center justify-center group-hover:bg-secondary/10 transition-colors">
                                                 <Buildings className="w-12 h-12 text-secondary/20 group-hover:text-primary/60 transition-colors duration-300" weight="bold" />
-                                            </div>
+                                                    </div>
                                             <div className="p-6">
                                                 <div className="flex justify-between items-start mb-3">
                                                     <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                                                        {project.type}
+                                                            {project.type}
                                                     </span>
                                                     <div className="flex items-center text-xs text-gray-400">
-                                                        <Calendar className="w-3 h-3 mr-1" />
-                                                        {project.year}
+                                                            <Calendar className="w-3 h-3 mr-1" />
+                                                            {project.year}
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 <h3 className="text-lg font-bold text-black uppercase group-hover:text-secondary transition-colors" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                                    {project.name}
+                                                        {project.name}
                                                 </h3>
                                             </div>
                                         </div>
                                     </SectionObserver>
-                                ))}
-                            </div>
-                        </div>
+                                        ))}
+                                    </div>
+                                </div>
                     </section>
                 ))}
 

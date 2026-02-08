@@ -72,7 +72,7 @@ export const NewsSection = () => {
                   {item.category}
                 </span>
                 <h3 className="text-lg font-bold text-navy mt-2 mb-3">
-                  {item.title}
+                    {item.title}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
                   {item.excerpt}

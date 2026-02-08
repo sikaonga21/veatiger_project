@@ -7,7 +7,7 @@ const heroSlides = [
   {
     heading: 'EXPERT MINING SUPPORT',
     subheading: "WE DELIVER RESULTS.",
-    image: "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?q=80&w=2070&auto=format&fit=crop"
+    image: "/hero-mine.jpeg"
   },
   {
     heading: 'RELIABLE LOGISTICS',
@@ -17,7 +17,7 @@ const heroSlides = [
   {
     heading: 'CIVIL ENGINEERING',
     subheading: "BUILDING THE FUTURE.",
-    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
+    image: "/mine-trucks.jpeg"
   },
 ];
 
@@ -55,48 +55,48 @@ export const HeroSection = () => {
 
       <div className="container mx-auto px-4 h-full relative z-10 flex items-center pt-20 lg:pt-24">
         <div className="max-w-4xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-            >
+              >
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-heading text-white mb-4 leading-none tracking-tight">
                 {heroSlides[currentSlide].heading}
-              </h1>
+                </h1>
               <p className="text-2xl md:text-3xl font-light text-primary mb-10 tracking-wide uppercase font-heading">
                 {heroSlides[currentSlide].subheading}
-              </p>
-            </motion.div>
-          </AnimatePresence>
+                </p>
+              </motion.div>
+            </AnimatePresence>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-          >
+            >
             <Link to="/contact" className="btn-primary text-lg inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
               Get a Quote
             </Link>
-          </motion.div>
+            </motion.div>
         </div>
       </div>
-      
-      {/* Slide Indicators */}
+
+            {/* Slide Indicators */}
       <div className="absolute bottom-10 left-0 right-0 z-20">
         <div className="container mx-auto px-4 flex gap-3">
-            {heroSlides.map((_, index) => (
-            <button
-                key={index}
+              {heroSlides.map((_, index) => (
+                <button
+                  key={index}
                 className={`h-1 rounded-full transition-all duration-500 ${
                 index === currentSlide ? 'bg-primary w-16' : 'bg-white/30 w-8 hover:bg-white/50'
-                }`}
-                onClick={() => setCurrentSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-            />
-            ))}
+                  }`}
+                  onClick={() => setCurrentSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
         </div>
       </div>
     </section>
