@@ -96,21 +96,21 @@ export const Footer = () => {
           <p>
             Created by{' '}
             <a 
-              href="https://sikaonga.vercel.app" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline transition-colors"
-            >
-              Sikaonga
-            </a>
-            {' '}and{' '}
-            <a 
               href="https://wazama.vercel.app" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-primary hover:underline transition-colors"
             >
               Wazama
+            </a>
+            {' '}and{' '}
+            <a 
+              href="https://sikaonga.vercel.app" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline transition-colors"
+            >
+              Sikaonga
             </a>
           </p>
         </div>

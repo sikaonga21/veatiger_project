@@ -5,9 +5,9 @@ import { useRef } from 'react';
 const partners = [
   { name: 'MSC' },
   { name: 'Safmarine' },
-  { name: 'Maersk' },
-  { name: 'ZESCO' },
-  { name: 'Zambia Army' },
+  { name: 'Maersk', logo: '/clients/logo.png' },
+  { name: 'ZESCO', logo: '/clients/zesco.png' },
+  { name: 'Zambia Army', logo: '/clients/defense.png' },
   { name: 'Aman Shaffan' },
   { name: 'JAE Engineering' },
   { name: 'IRS Cargo' },
@@ -46,9 +46,17 @@ export const PartnersCarousel = () => {
               key={`${partner.name}-${index}`}
               className="flex-shrink-0 flex items-center justify-center min-w-[180px] h-20 border border-white/10 px-8 hover:border-primary/50 transition-colors duration-300"
             >
-              <span className="text-lg font-bold text-white/60 whitespace-nowrap font-heading uppercase tracking-wider hover:text-primary transition-colors duration-300">
-                {partner.name}
-              </span>
+              {partner.logo ? (
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="h-12 w-auto object-contain brightness-0 invert opacity-60 hover:opacity-100 transition-opacity duration-300"
+                />
+              ) : (
+                <span className="text-lg font-bold text-white/60 whitespace-nowrap font-heading uppercase tracking-wider hover:text-primary transition-colors duration-300">
+                  {partner.name}
+                </span>
+              )}
             </div>
           ))}
         </motion.div>
