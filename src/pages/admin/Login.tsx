@@ -139,12 +139,7 @@ export default function AdminLogin() {
                         </Button>
                     </form>
 
-                    {/* Helper Text */}
-                    <div className="mt-6 text-center">
-                        <p className="text-xs text-gray-500">
-                            For demo purposes, use any email and password
-                        </p>
-                    </div>
+
                 </div>
 
                 {/* Footer */}
