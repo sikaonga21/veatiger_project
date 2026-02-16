@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/projects', label: 'Projects' },
   { href: '/careers', label: 'Careers' },
+  { href: '/blog', label: 'Blog' },
 ];
 
 export const Header = () => {
@@ -26,8 +27,8 @@ export const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? 'bg-black shadow-lg'
-          : 'bg-transparent'
+        ? 'bg-black shadow-lg'
+        : 'bg-transparent'
         }`}
     >
       <div className="container mx-auto px-4">

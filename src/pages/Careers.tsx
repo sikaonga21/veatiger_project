@@ -7,90 +7,90 @@ import { Link } from 'react-router-dom';
 import { Briefcase, MapPin, Clock, ArrowRight } from 'phosphor-react';
 
 const jobOpenings = [
-  {
-    id: 1,
-    title: 'Civil Engineer',
-    department: 'Engineering',
-    location: 'Lusaka, Zambia',
-    type: 'Full-time',
-    description: 'We are seeking an experienced Civil Engineer to join our team. You will be responsible for designing, planning, and overseeing construction projects.',
-    requirements: [
-      'Bachelor\'s degree in Civil Engineering',
-      '5+ years of experience in construction projects',
-      'Professional engineering license preferred',
-      'Strong project management skills'
-    ]
-  },
-  {
-    id: 2,
-    title: 'Logistics Coordinator',
-    department: 'Transport and Logistics',
-    location: 'Lusaka, Zambia',
-    type: 'Full-time',
-    description: 'Join our logistics team to coordinate transportation operations, manage fleet schedules, and ensure timely delivery of goods across Southern Africa.',
-    requirements: [
-      'Degree in Logistics, Supply Chain, or related field',
-      '3+ years of logistics coordination experience',
-      'Knowledge of cross-border transportation regulations',
-      'Excellent communication and organizational skills'
-    ]
-  },
-  {
-    id: 3,
-    title: 'Project Manager',
-    department: 'Construction',
-    location: 'Kitwe, Zambia',
-    type: 'Full-time',
-    description: 'Lead construction projects from planning to completion. Manage teams, budgets, timelines, and ensure quality standards are met.',
-    requirements: [
-      'Bachelor\'s degree in Construction Management or related',
-      '7+ years of project management experience',
-      'PMP certification preferred',
-      'Strong leadership and problem-solving skills'
-    ]
-  },
-  {
-    id: 4,
-    title: 'Mining Support Specialist',
-    department: 'Mining',
-    location: 'Copperbelt, Zambia',
-    type: 'Full-time',
-    description: 'Provide technical support and supply chain solutions to mining operations. Coordinate material deliveries and maintain relationships with mining clients.',
-    requirements: [
-      'Experience in mining industry or related field',
-      'Knowledge of mining operations and safety standards',
-      'Strong relationship management skills',
-      'Ability to work in remote locations'
-    ]
-  },
-  {
-    id: 5,
-    title: 'Accountant',
-    department: 'Finance',
-    location: 'Lusaka, Zambia',
-    type: 'Full-time',
-    description: 'Manage financial records, prepare reports, and ensure compliance with accounting standards. Support financial planning and budgeting processes.',
-    requirements: [
-      'Bachelor\'s degree in Accounting or Finance',
-      'Professional accounting qualification (ACCA, CIMA, or equivalent)',
-      '3+ years of accounting experience',
-      'Proficiency in accounting software'
-    ]
-  },
-  {
-    id: 6,
-    title: 'Sales Representative',
-    department: 'Sales',
-    location: 'Lusaka, Zambia',
-    type: 'Full-time',
-    description: 'Build relationships with clients, identify business opportunities, and promote our range of services including construction, logistics, and general supply.',
-    requirements: [
-      'Bachelor\'s degree in Business or related field',
-      '2+ years of B2B sales experience',
-      'Excellent communication and negotiation skills',
-      'Self-motivated and results-oriented'
-    ]
-  }
+    {
+        id: 1,
+        title: 'Civil Engineer',
+        department: 'Engineering',
+        location: 'Lusaka, Zambia',
+        type: 'Full-time',
+        description: 'We are seeking an experienced Civil Engineer to join our team. You will be responsible for designing, planning, and overseeing construction projects.',
+        requirements: [
+            'Bachelor\'s degree in Civil Engineering',
+            '5+ years of experience in construction projects',
+            'Professional engineering license preferred',
+            'Strong project management skills'
+        ]
+    },
+    {
+        id: 2,
+        title: 'Logistics Coordinator',
+        department: 'Transport and Logistics',
+        location: 'Lusaka, Zambia',
+        type: 'Full-time',
+        description: 'Join our logistics team to coordinate transportation operations, manage fleet schedules, and ensure timely delivery of goods across Southern Africa.',
+        requirements: [
+            'Degree in Logistics, Supply Chain, or related field',
+            '3+ years of logistics coordination experience',
+            'Knowledge of cross-border transportation regulations',
+            'Excellent communication and organizational skills'
+        ]
+    },
+    {
+        id: 3,
+        title: 'Project Manager',
+        department: 'Construction',
+        location: 'Kitwe, Zambia',
+        type: 'Full-time',
+        description: 'Lead construction projects from planning to completion. Manage teams, budgets, timelines, and ensure quality standards are met.',
+        requirements: [
+            'Bachelor\'s degree in Construction Management or related',
+            '7+ years of project management experience',
+            'PMP certification preferred',
+            'Strong leadership and problem-solving skills'
+        ]
+    },
+    {
+        id: 4,
+        title: 'Mining Support Specialist',
+        department: 'Mining',
+        location: 'Copperbelt, Zambia',
+        type: 'Full-time',
+        description: 'Provide technical support and supply chain solutions to mining operations. Coordinate material deliveries and maintain relationships with mining clients.',
+        requirements: [
+            'Experience in mining industry or related field',
+            'Knowledge of mining operations and safety standards',
+            'Strong relationship management skills',
+            'Ability to work in remote locations'
+        ]
+    },
+    {
+        id: 5,
+        title: 'Accountant',
+        department: 'Finance',
+        location: 'Lusaka, Zambia',
+        type: 'Full-time',
+        description: 'Manage financial records, prepare reports, and ensure compliance with accounting standards. Support financial planning and budgeting processes.',
+        requirements: [
+            'Bachelor\'s degree in Accounting or Finance',
+            'Professional accounting qualification (ACCA, CIMA, or equivalent)',
+            '3+ years of accounting experience',
+            'Proficiency in accounting software'
+        ]
+    },
+    {
+        id: 6,
+        title: 'Sales Representative',
+        department: 'Sales',
+        location: 'Lusaka, Zambia',
+        type: 'Full-time',
+        description: 'Build relationships with clients, identify business opportunities, and promote our range of services including construction, logistics, and general supply.',
+        requirements: [
+            'Bachelor\'s degree in Business or related field',
+            '2+ years of B2B sales experience',
+            'Excellent communication and negotiation skills',
+            'Self-motivated and results-oriented'
+        ]
+    }
 ];
 
 const SectionObserver = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
@@ -253,7 +253,7 @@ const Careers = () => {
                     <div className="container mx-auto px-4">
                         <SectionObserver className="max-w-3xl">
                             <h2 className="text-4xl md:text-6xl font-bold font-heading text-black mb-6 uppercase">
-                                DON'T SEE A MATCH?
+                                DONT SEE A MATCH?
                             </h2>
                             <p className="text-xl text-black/80 mb-10 font-light">
                                 We're always looking for talented individuals. Send us your resume and we'll keep you in mind for future opportunities.
