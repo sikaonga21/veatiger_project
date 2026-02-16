@@ -6,48 +6,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Buildings } from "phosphor-react";
-
-const projects = [
-    {
-        category: "Large Scale Initiatives",
-        period: "2016–Present",
-        description: "Major engineering contracts and logistics services for key institutions.",
-        items: [
-            { name: "ZESCO and Zambia Army", year: "2016–2018", type: "Government/Utility" },
-            { name: "Aman Shaffan", year: "2016–2018", type: "Construction" },
-            { name: "JAE Engineering", year: "Ongoing", type: "Engineering" },
-            { name: "IRS Cargo", year: "2017–2018", type: "Logistics" },
-            { name: "Ministry of Government", year: "2018", type: "Government" },
-            { name: "LEON Engineering", year: "2018–2019", type: "Engineering" },
-        ]
-    },
-
-    {
-        category: "Expansion",
-        period: "2012–2017",
-        description: "Corporate partnerships and infrastructure support across Zambia.",
-        items: [
-            { name: "Hazida Distributors", year: "2012", type: "Distribution" },
-            { name: "Airtel Investments", year: "2012", type: "Commercial" },
-            { name: "RDA/ZPPA/CE/011/12", year: "2012", type: "Infrastructure" },
-            { name: "Royal (Crocodile) Enterprises", year: "2015–2016", type: "Commercial" },
-            { name: "Market Farm Company", year: "2017", type: "Agriculture" },
-        ]
-    },
-    {
-        category: "Early Works",
-        period: "2009–2012",
-        description: "Foundational projects and long-term engagements that established our reputation.",
-        items: [
-            { name: "Chacha Park Lodge", year: "2009–2010", type: "Hospitality" },
-            { name: "Kingfisher Lodge", year: "2009–2011", type: "Hospitality" },
-            { name: "Modern Press and Zambia Sugar", year: "2009–2012", type: "Industrial" },
-            { name: "Ministry of Science and Technology", year: "2010", type: "Government" },
-            { name: "Germany Embassy", year: "2010–2011", type: "Diplomatic" },
-        ]
-    }
-   
-];
+import { useProjectQuery } from '@/hooks/useApi';
 
 const SectionObserver = ({ children, className = "", delay = 0, direction = "left" }: { children: React.ReactNode; className?: string; delay?: number; direction?: "left" | "right" }) => {
     const ref = useRef(null);
@@ -67,6 +26,23 @@ const SectionObserver = ({ children, className = "", delay = 0, direction = "lef
 };
 
 const Projects = () => {
+    const { data: projects = [], isLoading } = useProjectQuery();
+
+    // Group projects by category
+    const groupedProjects = projects.reduce((acc: any, project: any) => {
+        if (!acc[project.category]) {
+            acc[project.category] = {
+                category: project.category,
+                description: "", // Description might need to be handled differently if it varies per project in same category
+                items: []
+            };
+        }
+        acc[project.category].items.push(project);
+        return acc;
+    }, {});
+
+    const projectGroups = Object.values(groupedProjects);
+
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
@@ -87,8 +63,8 @@ const Projects = () => {
                                 transition={{ duration: 0.8 }}
                             >
                                 <Badge className="mb-6 bg-primary text-black hover:bg-primary/90 text-sm py-1.5 px-5 font-bold uppercase tracking-wider rounded-none">
-                            Since 2009
-                        </Badge>
+                                    Since 2009
+                                </Badge>
                                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-heading text-white uppercase tracking-tight mb-4">
                                     Our Projects
                                 </h1>
@@ -101,48 +77,70 @@ const Projects = () => {
                     </div>
                 </section>
 
+                {/* Loading State */}
+                {isLoading && (
+                    <div className="py-24 text-center">
+                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="text-gray-600">Loading projects...</p>
+                    </div>
+                )}
+
+                {/* Empty State */}
+                {!isLoading && projectGroups.length === 0 && (
+                    <div className="py-24 text-center">
+                        <p className="text-gray-600 text-lg">No projects found.</p>
+                    </div>
+                )}
+
                 {/* Timeline/Portfolio Sections */}
-                {projects.map((group, gIndex) => (
+                {projectGroups.map((group: any, gIndex: number) => (
                     <section key={gIndex} className={`py-24 overflow-hidden ${gIndex % 2 === 1 ? 'bg-muted/30' : 'bg-white'}`}>
-                    <div className="container mx-auto px-4">
+                        <div className="container mx-auto px-4">
                             <SectionObserver>
                                 <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-12 pb-6 border-b-2 border-black/10">
                                     <div>
                                         <h2 className="text-4xl md:text-5xl font-bold font-heading text-black uppercase">{group.category}</h2>
-                                        <p className="text-gray-500 mt-2 text-lg">{group.description}</p>
-                                        </div>
-                                    <span className="text-3xl font-bold font-heading text-primary whitespace-nowrap">
-                                            {group.period}
-                                    </span>
+                                        {/* <p className="text-gray-500 mt-2 text-lg">{group.description}</p> */}
                                     </div>
+                                    <span className="text-3xl font-bold font-heading text-primary whitespace-nowrap">
+                                        Projects
+                                    </span>
+                                </div>
                             </SectionObserver>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        {group.items.map((project, pIndex) => (
-                                    <SectionObserver key={pIndex} delay={pIndex * 0.1} direction={pIndex % 2 === 0 ? "left" : "right"}>
-                                        <div className="group overflow-hidden border border-black/5 hover:border-primary/50 transition-all duration-300 bg-white hover:shadow-lg">
-                                            <div className="h-48 bg-secondary/5 relative flex items-center justify-center group-hover:bg-secondary/10 transition-colors">
-                                                <Buildings className="w-12 h-12 text-secondary/20 group-hover:text-primary/60 transition-colors duration-300" weight="bold" />
-                                                    </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {group.items.map((project: any, pIndex: number) => (
+                                    <SectionObserver key={project.id} delay={pIndex * 0.1} direction={pIndex % 2 === 0 ? "left" : "right"}>
+                                        <div className="group overflow-hidden border border-black/5 hover:border-primary/50 transition-all duration-300 bg-white hover:shadow-lg h-full">
+                                            <div className="h-48 bg-secondary/5 relative flex items-center justify-center group-hover:bg-secondary/10 transition-colors overflow-hidden">
+                                                {project.image_url ? (
+                                                    <img src={project.image_url} alt={project.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                ) : (
+                                                    <Buildings className="w-12 h-12 text-secondary/20 group-hover:text-primary/60 transition-colors duration-300" weight="bold" />
+                                                )}
+                                            </div>
                                             <div className="p-6">
                                                 <div className="flex justify-between items-start mb-3">
                                                     <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                                                            {project.type}
+                                                        {project.type}
                                                     </span>
                                                     <div className="flex items-center text-xs text-gray-400">
-                                                            <Calendar className="w-3 h-3 mr-1" />
-                                                            {project.year}
-                                                        </div>
+                                                        <Calendar className="w-3 h-3 mr-1" />
+                                                        {project.year}
                                                     </div>
+                                                </div>
                                                 <h3 className="text-lg font-bold text-black uppercase group-hover:text-secondary transition-colors" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                                        {project.name}
+                                                    {project.name}
                                                 </h3>
+                                                {project.description && (
+                                                    <p className="text-sm text-gray-500 mt-2 line-clamp-2">{project.description}</p>
+                                                )}
                                             </div>
                                         </div>
                                     </SectionObserver>
-                                        ))}
-                                    </div>
-                                </div>
+                                ))}
+                            </div>
+                        </div>
                     </section>
                 ))}
 

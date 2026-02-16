@@ -182,8 +182,8 @@ export default function AdminDashboard() {
                             {recentActivities.map((activity) => (
                                 <div key={activity.id} className="flex items-start gap-4 pb-4 border-b last:border-0 last:pb-0">
                                     <div className={`w-2 h-2 rounded-full mt-2 ${activity.type === 'career' ? 'bg-secondary' :
-                                            activity.type === 'project' ? 'bg-primary' :
-                                                'bg-blue-500'
+                                        activity.type === 'project' ? 'bg-primary' :
+                                            'bg-blue-500'
                                         }`} />
                                     <div className="flex-1">
                                         <p className="text-sm font-medium text-black">{activity.action}</p>

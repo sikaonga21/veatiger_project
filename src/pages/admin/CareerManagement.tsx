@@ -29,33 +29,8 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Plus, Search, Edit, Trash2, MapPin, Clock } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-
-// Mock data - will be replaced with API
-const initialCareers = [
-    {
-        id: 1,
-        title: 'Civil Engineer',
-        department: 'Engineering',
-        location: 'Lusaka, Zambia',
-        type: 'Full-time',
-        description: 'We are seeking an experienced Civil Engineer...',
-        requirements: ['Bachelor\'s degree in Civil Engineering', '5+ years experience'],
-        status: 'active',
-        createdAt: '2024-01-15',
-    },
-    {
-        id: 2,
-        title: 'Project Manager',
-        department: 'Construction',
-        location: 'Kitwe, Zambia',
-        type: 'Full-time',
-        description: 'Lead construction projects from planning to completion...',
-        requirements: ['Bachelor\'s degree in Construction Management', '7+ years experience'],
-        status: 'active',
-        createdAt: '2024-01-10',
-    },
-];
+import { useCareerQuery, useCareerMutation } from '@/hooks/useApi';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Career {
     id: number;
@@ -66,17 +41,21 @@ interface Career {
     description: string;
     requirements: string[];
     status: string;
-    createdAt: string;
+    created_at: string;
 }
 
 export default function CareerManagement() {
-    const [careers, setCareers] = useState<Career[]>(initialCareers);
+    const { data: careers = [], isLoading } = useCareerQuery();
+    const { create, update, delete: remove } = useCareerMutation();
+    const { toast } = useToast();
+
     const [searchQuery, setSearchQuery] = useState('');
     const [filterDepartment, setFilterDepartment] = useState('all');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [editingCareer, setEditingCareer] = useState<Career | null>(null);
     const [deletingCareer, setDeletingCareer] = useState<Career | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -92,7 +71,7 @@ export default function CareerManagement() {
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
     // Filter careers
-    const filteredCareers = careers.filter((career) => {
+    const filteredCareers = careers.filter((career: Career) => {
         const matchesSearch = career.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             career.department.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesDepartment = filterDepartment === 'all' || career.department === filterDepartment;
@@ -100,7 +79,7 @@ export default function CareerManagement() {
     });
 
     // Get unique departments
-    const departments = Array.from(new Set(careers.map(c => c.department)));
+    const departments = Array.from(new Set(careers.map((c: Career) => c.department))) as string[];
 
     const handleOpenDialog = (career?: Career) => {
         if (career) {
@@ -111,7 +90,7 @@ export default function CareerManagement() {
                 location: career.location,
                 type: career.type,
                 description: career.description,
-                requirements: career.requirements.join('\n'),
+                requirements: career.requirements?.join('\n') || '',
                 status: career.status,
             });
         } else {
@@ -137,54 +116,58 @@ export default function CareerManagement() {
         if (!formData.department.trim()) errors.department = 'Department is required';
         if (!formData.location.trim()) errors.location = 'Location is required';
         if (!formData.description.trim()) errors.description = 'Description is required';
-        if (!formData.requirements.trim()) errors.requirements = 'At least one requirement is needed';
 
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!validateForm()) return;
 
+        setIsSaving(true);
         const careerData = {
             ...formData,
             requirements: formData.requirements.split('\n').filter(r => r.trim()),
         };
 
-        if (editingCareer) {
-            // Update existing
-            setCareers(careers.map(c =>
-                c.id === editingCareer.id
-                    ? { ...c, ...careerData }
-                    : c
-            ));
-        } else {
-            // Create new
-            const newCareer: Career = {
-                ...careerData,
-                id: Math.max(...careers.map(c => c.id), 0) + 1,
-                createdAt: new Date().toISOString().split('T')[0],
-            };
-            setCareers([...careers, newCareer]);
+        try {
+            if (editingCareer) {
+                await update.mutateAsync({ id: editingCareer.id, data: careerData });
+                toast({ title: 'Success', description: 'Career updated successfully' });
+            } else {
+                await create.mutateAsync(careerData);
+                toast({ title: 'Success', description: 'Career created successfully' });
+            }
+            setIsDialogOpen(false);
+        } catch (error) {
+            toast({ title: 'Error', description: 'Failed to save career', variant: 'destructive' });
+        } finally {
+            setIsSaving(false);
         }
-
-        setIsDialogOpen(false);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (deletingCareer) {
-            setCareers(careers.filter(c => c.id !== deletingCareer.id));
+            try {
+                await remove.mutateAsync(deletingCareer.id);
+                toast({ title: 'Success', description: 'Career deleted successfully' });
+            } catch (error) {
+                toast({ title: 'Error', description: 'Failed to delete career', variant: 'destructive' });
+            }
             setIsDeleteDialogOpen(false);
             setDeletingCareer(null);
         }
     };
 
-    const toggleStatus = (career: Career) => {
-        setCareers(careers.map(c =>
-            c.id === career.id
-                ? { ...c, status: c.status === 'active' ? 'inactive' : 'active' }
-                : c
-        ));
+    const toggleStatus = async (career: Career) => {
+        try {
+            await update.mutateAsync({
+                id: career.id,
+                data: { status: career.status === 'active' ? 'inactive' : 'active' }
+            });
+        } catch (error) {
+            toast({ title: 'Error', description: 'Failed to update status', variant: 'destructive' });
+        }
     };
 
     return (
@@ -244,14 +227,18 @@ export default function CareerManagement() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredCareers.length === 0 ? (
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="text-center py-8">Loading...</TableCell>
+                            </TableRow>
+                        ) : filteredCareers.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center py-8 text-gray-500">
                                     No careers found
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            filteredCareers.map((career) => (
+                            filteredCareers.map((career: Career) => (
                                 <TableRow key={career.id}>
                                     <TableCell className="font-medium">{career.title}</TableCell>
                                     <TableCell>{career.department}</TableCell>
@@ -381,7 +368,7 @@ export default function CareerManagement() {
                         </div>
 
                         <div>
-                            <Label htmlFor="requirements">Requirements * (one per line)</Label>
+                            <Label htmlFor="requirements">Requirements (one per line)</Label>
                             <Textarea
                                 id="requirements"
                                 value={formData.requirements}
@@ -389,7 +376,6 @@ export default function CareerManagement() {
                                 placeholder="Bachelor's degree in Engineering&#10;5+ years experience&#10;..."
                                 rows={4}
                             />
-                            {formErrors.requirements && <p className="text-sm text-red-500 mt-1">{formErrors.requirements}</p>}
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -406,8 +392,8 @@ export default function CareerManagement() {
                         <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
                             Cancel
                         </Button>
-                        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-bold">
-                            {editingCareer ? 'Update' : 'Create'} Career
+                        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-bold" disabled={isSaving}>
+                            {isSaving ? 'Saving...' : editingCareer ? 'Update Career' : 'Create Career'}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

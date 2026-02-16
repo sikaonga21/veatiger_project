@@ -13,61 +13,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Calendar, User, MagnifyingGlass, ArrowRight } from 'phosphor-react';
-
-// Mock blog posts - will be replaced with API
-const blogPosts = [
-    {
-        id: 1,
-        title: 'Veatiger Completes Major Infrastructure Project in Lusaka',
-        excerpt: 'We are proud to announce the successful completion of a major infrastructure development project in partnership with ZESCO...',
-        category: 'Projects',
-        author: 'Admin Team',
-        date: '2024-01-15',
-        image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop',
-        featured: true,
-    },
-    {
-        id: 2,
-        title: 'Sustainable Construction Practices: Our Commitment to the Environment',
-        excerpt: 'At Veatiger, we believe in building for the future. Learn about our sustainable construction practices and environmental initiatives...',
-        category: 'News',
-        author: 'Admin Team',
-        date: '2024-01-10',
-        image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=2071&auto=format&fit=crop',
-        featured: false,
-    },
-    {
-        id: 3,
-        title: 'Expanding Our Logistics Network Across Southern Africa',
-        excerpt: 'Exciting news as we expand our logistics services to new regions across Southern Africa, improving supply chain efficiency...',
-        category: 'Company News',
-        author: 'Admin Team',
-        date: '2024-01-05',
-        image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop',
-        featured: false,
-    },
-    {
-        id: 4,
-        title: 'Innovation in Mining Support Services',
-        excerpt: 'Discover how Veatiger is revolutionizing mining support services with cutting-edge technology and dedicated expertise...',
-        category: 'Services',
-        author: 'Admin Team',
-        date: '2023-12-28',
-        image: 'https://images.unsplash.com/photo-1547593750-20d2e62ebc8f?q=80&w=2070&auto=format&fit=crop',
-        featured: false,
-    },
-    {
-        id: 5,
-        title: 'Meet Our Team: Engineering Excellence',
-        excerpt: 'Get to know the talented engineers behind our successful projects and learn about their passion for building excellence...',
-        category: 'Team',
-        author: 'Admin Team',
-        date: '2023-12-20',
-        image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=2070&auto=format&fit=crop',
-        featured: false,
-    },
-];
+import { Calendar, User, MagnifyingGlass, ArrowRight, Image as ImageIcon } from 'phosphor-react';
+import { useBlogQuery } from '@/hooks/useApi';
 
 const SectionObserver = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
     const ref = useRef(null);
@@ -86,22 +33,26 @@ const SectionObserver = ({ children, className = "", delay = 0 }: { children: Re
 };
 
 const Blog = () => {
+    const { data: blogPosts = [], isLoading, error } = useBlogQuery();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
 
+    // Filter only published posts
+    const publishedPosts = blogPosts.filter((post: any) => post.status === 'published');
+
     // Get unique categories
-    const categories = Array.from(new Set(blogPosts.map(post => post.category)));
+    const categories = Array.from(new Set(publishedPosts.map((post: any) => post.category))) as string[];
 
     // Filter posts
-    const filteredPosts = blogPosts.filter(post => {
+    const filteredPosts = publishedPosts.filter((post: any) => {
         const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
         return matchesSearch && matchesCategory;
     });
 
-    const featuredPost = blogPosts.find(post => post.featured);
-    const regularPosts = filteredPosts.filter(post => !post.featured);
+    const featuredPost = publishedPosts.find((post: any) => post.featured);
+    const regularPosts = filteredPosts.filter((post: any) => !post.featured || (post.featured && searchQuery));
 
     return (
         <div className="min-h-screen flex flex-col overflow-x-hidden">
@@ -162,109 +113,136 @@ const Blog = () => {
                     </div>
                 </section>
 
-                {/* Featured Post */}
-                {featuredPost && selectedCategory === 'all' && !searchQuery && (
-                    <section className="py-24 bg-muted/30">
-                        <div className="container mx-auto px-4">
-                            <SectionObserver>
-                                <Badge className="mb-6 bg-primary text-black hover:bg-primary/90 text-xs py-1.5 px-4 font-bold uppercase tracking-wider">
-                                    Featured
-                                </Badge>
-                                <div className="grid lg:grid-cols-2 gap-8 items-center">
-                                    <div className="order-2 lg:order-1">
-                                        <Badge variant="outline" className="mb-4">
-                                            {featuredPost.category}
+                {isLoading ? (
+                    <div className="text-center py-24">
+                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="text-gray-600">Loading articles...</p>
+                    </div>
+                ) : error ? (
+                    <div className="text-center py-24 text-red-500">
+                        Failed to load blog posts. Please try again later.
+                    </div>
+                ) : (
+                    <>
+                        {/* Featured Post */}
+                        {featuredPost && selectedCategory === 'all' && !searchQuery && (
+                            <section className="py-24 bg-muted/30">
+                                <div className="container mx-auto px-4">
+                                    <SectionObserver>
+                                        <Badge className="mb-6 bg-primary text-black hover:bg-primary/90 text-xs py-1.5 px-4 font-bold uppercase tracking-wider">
+                                            Featured
                                         </Badge>
-                                        <h2 className="text-4xl md:text-5xl font-bold font-heading text-black mb-4 uppercase">
-                                            {featuredPost.title}
-                                        </h2>
-                                        <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                                            {featuredPost.excerpt}
-                                        </p>
-                                        <div className="flex items-center gap-6 mb-6 text-sm text-gray-500">
-                                            <div className="flex items-center gap-2">
-                                                <User className="w-4 h-4" weight="fill" />
-                                                <span>{featuredPost.author}</span>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <Calendar className="w-4 h-4" weight="fill" />
-                                                <span>{new Date(featuredPost.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-                                            </div>
-                                        </div>
-                                        <Button className="bg-primary hover:bg-secondary text-black font-bold uppercase">
-                                            Read More <ArrowRight className="w-4 h-4 ml-2" weight="bold" />
-                                        </Button>
-                                    </div>
-                                    <div className="order-1 lg:order-2">
-                                        <img
-                                            src={featuredPost.image}
-                                            alt={featuredPost.title}
-                                            className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-                                        />
-                                    </div>
-                                </div>
-                            </SectionObserver>
-                        </div>
-                    </section>
-                )}
-
-                {/* All Posts */}
-                <section className="py-24 bg-white">
-                    <div className="container mx-auto px-4">
-                        <SectionObserver className="mb-12">
-                            <h2 className="text-4xl md:text-5xl font-bold font-heading text-black uppercase mb-4">
-                                Latest Articles
-                            </h2>
-                            <div className="w-24 h-1 bg-primary"></div>
-                        </SectionObserver>
-
-                        {regularPosts.length === 0 ? (
-                            <div className="text-center py-12">
-                                <p className="text-gray-500 text-lg">No articles found</p>
-                            </div>
-                        ) : (
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {regularPosts.map((post, index) => (
-                                    <SectionObserver key={post.id} delay={index * 0.1}>
-                                        <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
-                                            <div className="relative h-48 overflow-hidden">
-                                                <img
-                                                    src={post.image}
-                                                    alt={post.title}
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                                />
-                                                <Badge className="absolute top-4 left-4 bg-primary text-black text-xs">
-                                                    {post.category}
+                                        <div className="grid lg:grid-cols-2 gap-8 items-center">
+                                            <div className="order-2 lg:order-1">
+                                                <Badge variant="outline" className="mb-4">
+                                                    {featuredPost.category}
                                                 </Badge>
-                                            </div>
-                                            <div className="p-6">
-                                                <h3 className="text-xl font-bold font-heading text-black mb-3 uppercase group-hover:text-secondary transition-colors">
-                                                    {post.title}
-                                                </h3>
-                                                <p className="text-gray-600 mb-4 line-clamp-3">
-                                                    {post.excerpt}
+                                                <h2 className="text-4xl md:text-5xl font-bold font-heading text-black mb-4 uppercase">
+                                                    {featuredPost.title}
+                                                </h2>
+                                                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                                                    {featuredPost.excerpt}
                                                 </p>
-                                                <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
-                                                    <div className="flex items-center gap-1">
-                                                        <User className="w-3 h-3" weight="fill" />
-                                                        <span>{post.author}</span>
+                                                <div className="flex items-center gap-6 mb-6 text-sm text-gray-500">
+                                                    <div className="flex items-center gap-2">
+                                                        <User className="w-4 h-4" weight="fill" />
+                                                        <span>{featuredPost.author}</span>
                                                     </div>
-                                                    <div className="flex items-center gap-1">
-                                                        <Calendar className="w-3 h-3" weight="fill" />
-                                                        <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                                    <div className="flex items-center gap-2">
+                                                        <Calendar className="w-4 h-4" weight="fill" />
+                                                        <span>{new Date(featuredPost.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                                                     </div>
                                                 </div>
-                                                <Button variant="link" className="text-primary hover:text-secondary font-bold uppercase text-sm p-0">
-                                                    Read More <ArrowRight className="w-4 h-4 ml-1" weight="bold" />
+                                                <Button className="bg-primary hover:bg-secondary text-black font-bold uppercase">
+                                                    Read More <ArrowRight className="w-4 h-4 ml-2" weight="bold" />
                                                 </Button>
                                             </div>
-                                        </article>
+                                            <div className="order-1 lg:order-2">
+                                                {featuredPost.image_url ? (
+                                                    <img
+                                                        src={featuredPost.image_url}
+                                                        alt={featuredPost.title}
+                                                        className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-[400px] bg-gray-200 rounded-lg flex items-center justify-center">
+                                                        <ImageIcon className="w-12 h-12 text-gray-400" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     </SectionObserver>
-                                ))}
-                            </div>
+                                </div>
+                            </section>
                         )}
-                    </div>
-                </section>
+
+                        {/* All Posts */}
+                        <section className="py-24 bg-white">
+                            <div className="container mx-auto px-4">
+                                <SectionObserver className="mb-12">
+                                    <h2 className="text-4xl md:text-5xl font-bold font-heading text-black uppercase mb-4">
+                                        Latest Articles
+                                    </h2>
+                                    <div className="w-24 h-1 bg-primary"></div>
+                                </SectionObserver>
+
+                                {regularPosts.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <p className="text-gray-500 text-lg">No articles found</p>
+                                    </div>
+                                ) : (
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                        {regularPosts.map((post: any, index: number) => (
+                                            <SectionObserver key={post.id} delay={index * 0.1}>
+                                                <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group flex flex-col h-full">
+                                                    <div className="relative h-48 overflow-hidden bg-gray-100">
+                                                        {post.image_url ? (
+                                                            <img
+                                                                src={post.image_url}
+                                                                alt={post.title}
+                                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                                            />
+                                                        ) : (
+                                                            <div className="w-full h-full flex items-center justify-center">
+                                                                <ImageIcon className="w-8 h-8 text-gray-400" />
+                                                            </div>
+                                                        )}
+                                                        <Badge className="absolute top-4 left-4 bg-primary text-black text-xs">
+                                                            {post.category}
+                                                        </Badge>
+                                                    </div>
+                                                    <div className="p-6 flex flex-col flex-1">
+                                                        <h3 className="text-xl font-bold font-heading text-black mb-3 uppercase group-hover:text-secondary transition-colors">
+                                                            {post.title}
+                                                        </h3>
+                                                        <p className="text-gray-600 mb-4 line-clamp-3">
+                                                            {post.excerpt}
+                                                        </p>
+                                                        <div className="mt-auto pt-4 border-t border-gray-100">
+                                                            <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+                                                                <div className="flex items-center gap-1">
+                                                                    <User className="w-3 h-3" weight="fill" />
+                                                                    <span>{post.author}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1">
+                                                                    <Calendar className="w-3 h-3" weight="fill" />
+                                                                    <span>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                                                </div>
+                                                            </div>
+                                                            <Button variant="link" className="text-primary hover:text-secondary font-bold uppercase text-sm p-0 h-auto">
+                                                                Read More <ArrowRight className="w-4 h-4 ml-1" weight="bold" />
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </SectionObserver>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+                    </>
+                )}
             </main>
             <Footer />
         </div>

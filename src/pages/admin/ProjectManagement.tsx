@@ -29,30 +29,8 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Plus, Search, Edit, Trash2, Upload, X, Image as ImageIcon } from 'lucide-react';
-
-// Mock data
-const initialProjects = [
-    {
-        id: 1,
-        name: 'ZESCO and Zambia Army',
-        category: 'Large Scale Initiatives',
-        year: '2016-2018',
-        type: 'Government/Utility',
-        description: '',
-        image: null,
-        status: 'active',
-    },
-    {
-        id: 2,
-        name: 'Chacha Park Lodge',
-        category: 'Early Works',
-        year: '2009-2010',
-        type: 'Hospitality',
-        description: '',
-        image: null,
-        status: 'active',
-    },
-];
+import { useProjectQuery, useProjectMutation } from '@/hooks/useApi';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Project {
     id: number;
@@ -61,18 +39,23 @@ interface Project {
     year: string;
     type: string;
     description: string;
-    image: string | null;
+    image_url: string | null;
     status: string;
+    created_at: string;
 }
 
 export default function ProjectManagement() {
-    const [projects, setProjects] = useState<Project[]>(initialProjects);
+    const { data: projects = [], isLoading } = useProjectQuery();
+    const { create, update, delete: remove } = useProjectMutation();
+    const { toast } = useToast();
+
     const [searchQuery, setSearchQuery] = useState('');
     const [filterCategory, setFilterCategory] = useState('all');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [deletingProject, setDeletingProject] = useState<Project | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [formData, setFormData] = useState({
@@ -81,14 +64,14 @@ export default function ProjectManagement() {
         year: '',
         type: '',
         description: '',
-        image: null as string | null,
+        image_url: null as string | null,
         status: 'active',
     });
 
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
     // Filter projects
-    const filteredProjects = projects.filter((project) => {
+    const filteredProjects = projects.filter((project: Project) => {
         const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             project.type.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = filterCategory === 'all' || project.category === filterCategory;
@@ -96,7 +79,7 @@ export default function ProjectManagement() {
     });
 
     // Get unique categories
-    const categories = Array.from(new Set(projects.map(p => p.category)));
+    const categories = Array.from(new Set(projects.map((p: Project) => p.category))) as string[];
 
     const handleOpenDialog = (project?: Project) => {
         if (project) {
@@ -106,8 +89,8 @@ export default function ProjectManagement() {
                 category: project.category,
                 year: project.year,
                 type: project.type,
-                description: project.description,
-                image: project.image,
+                description: project.description || '',
+                image_url: project.image_url,
                 status: project.status,
             });
         } else {
@@ -118,7 +101,7 @@ export default function ProjectManagement() {
                 year: '',
                 type: '',
                 description: '',
-                image: null,
+                image_url: null,
                 status: 'active',
             });
         }
@@ -126,19 +109,20 @@ export default function ProjectManagement() {
         setIsDialogOpen(true);
     };
 
+    // Simplified image handling for now - store as base64 string or URL
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormData({ ...formData, image: reader.result as string });
+                setFormData({ ...formData, image_url: reader.result as string });
             };
             reader.readAsDataURL(file);
         }
     };
 
     const removeImage = () => {
-        setFormData({ ...formData, image: null });
+        setFormData({ ...formData, image_url: null });
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
@@ -156,40 +140,48 @@ export default function ProjectManagement() {
         return Object.keys(errors).length === 0;
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!validateForm()) return;
 
-        if (editingProject) {
-            setProjects(projects.map(p =>
-                p.id === editingProject.id
-                    ? { ...p, ...formData }
-                    : p
-            ));
-        } else {
-            const newProject: Project = {
-                ...formData,
-                id: Math.max(...projects.map(p => p.id), 0) + 1,
-            };
-            setProjects([...projects, newProject]);
+        setIsSaving(true);
+        try {
+            if (editingProject) {
+                await update.mutateAsync({ id: editingProject.id, data: formData });
+                toast({ title: 'Success', description: 'Project updated successfully' });
+            } else {
+                await create.mutateAsync(formData);
+                toast({ title: 'Success', description: 'Project created successfully' });
+            }
+            setIsDialogOpen(false);
+        } catch (error) {
+            toast({ title: 'Error', description: 'Failed to save project', variant: 'destructive' });
+        } finally {
+            setIsSaving(false);
         }
-
-        setIsDialogOpen(false);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (deletingProject) {
-            setProjects(projects.filter(p => p.id !== deletingProject.id));
+            try {
+                await remove.mutateAsync(deletingProject.id);
+                toast({ title: 'Success', description: 'Project deleted successfully' });
+            } catch (error) {
+                toast({ title: 'Error', description: 'Failed to delete project', variant: 'destructive' });
+            }
             setIsDeleteDialogOpen(false);
             setDeletingProject(null);
         }
     };
 
-    const toggleStatus = (project: Project) => {
-        setProjects(projects.map(p =>
-            p.id === project.id
-                ? { ...p, status: p.status === 'active' ? 'inactive' : 'active' }
-                : p
-        ));
+    const toggleStatus = async (project: Project) => {
+        try {
+            await update.mutateAsync({
+                id: project.id,
+                data: { status: project.status === 'active' ? 'inactive' : 'active' }
+            });
+        } catch (error) {
+            toast({ title: 'Error', description: 'Failed to update status', variant: 'destructive' });
+        }
     };
 
     return (
@@ -250,19 +242,23 @@ export default function ProjectManagement() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredProjects.length === 0 ? (
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className="text-center py-8">Loading...</TableCell>
+                            </TableRow>
+                        ) : filteredProjects.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={7} className="text-center py-8 text-gray-500">
                                     No projects found
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            filteredProjects.map((project) => (
+                            filteredProjects.map((project: Project) => (
                                 <TableRow key={project.id}>
                                     <TableCell>
                                         <div className="w-16 h-16 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
-                                            {project.image ? (
-                                                <img src={project.image} alt={project.name} className="w-full h-full object-cover" />
+                                            {project.image_url ? (
+                                                <img src={project.image_url} alt={project.name} className="w-full h-full object-cover" />
                                             ) : (
                                                 <ImageIcon className="w-6 h-6 text-gray-400" />
                                             )}
@@ -384,9 +380,9 @@ export default function ProjectManagement() {
                         {/* Image Upload */}
                         <div>
                             <Label>Project Image (Optional)</Label>
-                            {formData.image ? (
+                            {formData.image_url ? (
                                 <div className="relative mt-2">
-                                    <img src={formData.image} alt="Preview" className="w-full h-48 object-cover rounded border" />
+                                    <img src={formData.image_url} alt="Preview" className="w-full h-48 object-cover rounded border" />
                                     <Button
                                         type="button"
                                         variant="destructive"
@@ -434,8 +430,8 @@ export default function ProjectManagement() {
                         <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
                             Cancel
                         </Button>
-                        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-bold">
-                            {editingProject ? 'Update' : 'Create'} Project
+                        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-bold" disabled={isSaving}>
+                            {isSaving ? 'Saving...' : editingProject ? 'Update Project' : 'Create Project'}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

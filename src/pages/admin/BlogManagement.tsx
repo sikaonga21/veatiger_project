@@ -29,34 +29,8 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Plus, Search, Edit, Trash2, Upload, X, Image as ImageIcon, Star } from 'lucide-react';
-
-// Mock blog data
-const initialBlogPosts = [
-    {
-        id: 1,
-        title: 'Veatiger Completes Major Infrastructure Project in Lusaka',
-        excerpt: 'We are proud to announce the successful completion of a major infrastructure development project...',
-        content: '',
-        category: 'Projects',
-        author: 'Admin Team',
-        date: '2024-01-15',
-        image: null,
-        featured: true,
-        status: 'published',
-    },
-    {
-        id: 2,
-        title: 'Sustainable Construction Practices',
-        excerpt: 'At Veatiger, we believe in building for the future. Learn about our sustainable practices...',
-        content: '',
-        category: 'News',
-        author: 'Admin Team',
-        date: '2024-01-10',
-        image: null,
-        featured: false,
-        status: 'published',
-    },
-];
+import { useBlogQuery, useBlogMutation } from '@/hooks/useApi';
+import { useToast } from '@/components/ui/use-toast';
 
 interface BlogPost {
     id: number;
@@ -66,13 +40,17 @@ interface BlogPost {
     category: string;
     author: string;
     date: string;
-    image: string | null;
+    image_url: string | null;
     featured: boolean;
     status: string;
+    created_at: string;
 }
 
 export default function BlogManagement() {
-    const [posts, setPosts] = useState<BlogPost[]>(initialBlogPosts);
+    const { data: posts = [], isLoading } = useBlogQuery();
+    const { create, update, delete: remove } = useBlogMutation();
+    const { toast } = useToast();
+
     const [searchQuery, setSearchQuery] = useState('');
     const [filterCategory, setFilterCategory] = useState('all');
     const [filterStatus, setFilterStatus] = useState('all');
@@ -80,6 +58,7 @@ export default function BlogManagement() {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
     const [deletingPost, setDeletingPost] = useState<BlogPost | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [formData, setFormData] = useState({
@@ -88,7 +67,7 @@ export default function BlogManagement() {
         content: '',
         category: '',
         author: '',
-        image: null as string | null,
+        image_url: null as string | null,
         featured: false,
         status: 'draft',
     });
@@ -96,7 +75,7 @@ export default function BlogManagement() {
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
     // Filter posts
-    const filteredPosts = posts.filter((post) => {
+    const filteredPosts = posts.filter((post: BlogPost) => {
         const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = filterCategory === 'all' || post.category === filterCategory;
@@ -105,7 +84,7 @@ export default function BlogManagement() {
     });
 
     // Get unique categories
-    const categories = Array.from(new Set(posts.map(p => p.category)));
+    const categories = Array.from(new Set(posts.map((p: BlogPost) => p.category))) as string[];
 
     const handleOpenDialog = (post?: BlogPost) => {
         if (post) {
@@ -116,7 +95,7 @@ export default function BlogManagement() {
                 content: post.content,
                 category: post.category,
                 author: post.author,
-                image: post.image,
+                image_url: post.image_url,
                 featured: post.featured,
                 status: post.status,
             });
@@ -128,7 +107,7 @@ export default function BlogManagement() {
                 content: '',
                 category: '',
                 author: '',
-                image: null,
+                image_url: null,
                 featured: false,
                 status: 'draft',
             });
@@ -142,14 +121,14 @@ export default function BlogManagement() {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormData({ ...formData, image: reader.result as string });
+                setFormData({ ...formData, image_url: reader.result as string });
             };
             reader.readAsDataURL(file);
         }
     };
 
     const removeImage = () => {
-        setFormData({ ...formData, image: null });
+        setFormData({ ...formData, image_url: null });
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
@@ -168,50 +147,60 @@ export default function BlogManagement() {
         return Object.keys(errors).length === 0;
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!validateForm()) return;
 
-        if (editingPost) {
-            setPosts(posts.map(p =>
-                p.id === editingPost.id
-                    ? { ...p, ...formData, date: p.date }
-                    : p
-            ));
-        } else {
-            const newPost: BlogPost = {
-                ...formData,
-                id: Math.max(...posts.map(p => p.id), 0) + 1,
-                date: new Date().toISOString().split('T')[0],
-            };
-            setPosts([newPost, ...posts]);
+        setIsSaving(true);
+        try {
+            if (editingPost) {
+                await update.mutateAsync({ id: editingPost.id, data: formData });
+                toast({ title: 'Success', description: 'Post updated successfully' });
+            } else {
+                await create.mutateAsync(formData);
+                toast({ title: 'Success', description: 'Post created successfully' });
+            }
+            setIsDialogOpen(false);
+        } catch (error) {
+            toast({ title: 'Error', description: 'Failed to save post', variant: 'destructive' });
+        } finally {
+            setIsSaving(false);
         }
-
-        setIsDialogOpen(false);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (deletingPost) {
-            setPosts(posts.filter(p => p.id !== deletingPost.id));
+            try {
+                await remove.mutateAsync(deletingPost.id);
+                toast({ title: 'Success', description: 'Post deleted successfully' });
+            } catch (error) {
+                toast({ title: 'Error', description: 'Failed to delete post', variant: 'destructive' });
+            }
             setIsDeleteDialogOpen(false);
             setDeletingPost(null);
         }
     };
 
-    const toggleFeatured = (post: BlogPost) => {
-        // Only one post can be featured at a time
-        setPosts(posts.map(p =>
-            p.id === post.id
-                ? { ...p, featured: !p.featured }
-                : { ...p, featured: false }
-        ));
+    const toggleFeatured = async (post: BlogPost) => {
+        try {
+            // If setting to true, we might want to unfeature others, but for simplicity we'll just toggle
+            await update.mutateAsync({
+                id: post.id,
+                data: { featured: !post.featured }
+            });
+        } catch (error) {
+            toast({ title: 'Error', description: 'Failed to update featured status', variant: 'destructive' });
+        }
     };
 
-    const toggleStatus = (post: BlogPost) => {
-        setPosts(posts.map(p =>
-            p.id === post.id
-                ? { ...p, status: p.status === 'published' ? 'draft' : 'published' }
-                : p
-        ));
+    const toggleStatus = async (post: BlogPost) => {
+        try {
+            await update.mutateAsync({
+                id: post.id,
+                data: { status: post.status === 'published' ? 'draft' : 'published' }
+            });
+        } catch (error) {
+            toast({ title: 'Error', description: 'Failed to update status', variant: 'destructive' });
+        }
     };
 
     return (
@@ -283,19 +272,23 @@ export default function BlogManagement() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredPosts.length === 0 ? (
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={8} className="text-center py-8">Loading...</TableCell>
+                            </TableRow>
+                        ) : filteredPosts.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={8} className="text-center py-8 text-gray-500">
                                     No blog posts found
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            filteredPosts.map((post) => (
+                            filteredPosts.map((post: BlogPost) => (
                                 <TableRow key={post.id}>
                                     <TableCell>
                                         <div className="w-16 h-16 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
-                                            {post.image ? (
-                                                <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                                            {post.image_url ? (
+                                                <img src={post.image_url} alt={post.title} className="w-full h-full object-cover" />
                                             ) : (
                                                 <ImageIcon className="w-6 h-6 text-gray-400" />
                                             )}
@@ -305,7 +298,7 @@ export default function BlogManagement() {
                                     <TableCell><Badge variant="outline">{post.category}</Badge></TableCell>
                                     <TableCell className="text-sm text-gray-600">{post.author}</TableCell>
                                     <TableCell className="text-sm text-gray-600">
-                                        {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                        {new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </TableCell>
                                     <TableCell>
                                         <Button
@@ -431,9 +424,9 @@ export default function BlogManagement() {
                         {/* Image Upload */}
                         <div>
                             <Label>Featured Image</Label>
-                            {formData.image ? (
+                            {formData.image_url ? (
                                 <div className="relative mt-2">
-                                    <img src={formData.image} alt="Preview" className="w-full h-48 object-cover rounded border" />
+                                    <img src={formData.image_url} alt="Preview" className="w-full h-48 object-cover rounded border" />
                                     <Button
                                         type="button"
                                         variant="destructive"
@@ -492,7 +485,7 @@ export default function BlogManagement() {
                         <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
                             Cancel
                         </Button>
-                        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-bold">
+                        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-bold" disabled={isSaving}>
                             {editingPost ? 'Update' : 'Create'} Post
                         </Button>
                     </DialogFooter>
