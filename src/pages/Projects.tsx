@@ -2,8 +2,9 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Buildings } from "phosphor-react";
 import { useProjectQuery } from '@/hooks/useApi';
@@ -22,6 +23,56 @@ const SectionObserver = ({ children, className = "", delay = 0, direction = "lef
         >
             {children}
         </motion.div>
+    );
+};
+
+const ProjectSlideshow = ({ images, name }: { images: string[]; name: string }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        if (images.length <= 1) return;
+
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % images.length);
+        }, 4000); // Change image every 4 seconds
+
+        return () => clearInterval(timer);
+    }, [images]);
+
+    if (!images || images.length === 0) {
+        return (
+            <div className="w-full h-full flex items-center justify-center bg-secondary/5">
+                <Buildings className="w-12 h-12 text-secondary/20" weight="bold" />
+            </div>
+        );
+    }
+
+    return (
+        <div className="relative w-full h-full overflow-hidden">
+            <AnimatePresence mode="wait">
+                <motion.img
+                    key={currentIndex}
+                    src={images[currentIndex]}
+                    alt={`${name} - Slide ${currentIndex + 1}`}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    className="w-full h-full object-cover"
+                />
+            </AnimatePresence>
+
+            {images.length > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {images.map((_, idx) => (
+                        <div
+                            key={idx}
+                            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'bg-primary w-4' : 'bg-white/50'}`}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 
@@ -113,7 +164,9 @@ const Projects = () => {
                                     <SectionObserver key={project.id} delay={pIndex * 0.1} direction={pIndex % 2 === 0 ? "left" : "right"}>
                                         <div className="group overflow-hidden border border-black/5 hover:border-primary/50 transition-all duration-300 bg-white hover:shadow-lg h-full">
                                             <div className="h-48 bg-secondary/5 relative flex items-center justify-center group-hover:bg-secondary/10 transition-colors overflow-hidden">
-                                                {project.image_url ? (
+                                                {project.images && project.images.length > 0 ? (
+                                                    <ProjectSlideshow images={project.images} name={project.name} />
+                                                ) : project.image_url ? (
                                                     <img src={project.image_url} alt={project.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                                 ) : (
                                                     <Buildings className="w-12 h-12 text-secondary/20 group-hover:text-primary/60 transition-colors duration-300" weight="bold" />
@@ -124,9 +177,16 @@ const Projects = () => {
                                                     <span className="text-xs font-bold uppercase tracking-widest text-primary">
                                                         {project.type}
                                                     </span>
-                                                    <div className="flex items-center text-xs text-gray-400">
-                                                        <Calendar className="w-3 h-3 mr-1" />
-                                                        {project.year}
+                                                    <div className="flex flex-col items-end text-xs text-gray-400 gap-1">
+                                                        <div className="flex items-center">
+                                                            <Calendar className="w-3 h-3 mr-1" />
+                                                            {project.year}
+                                                        </div>
+                                                        {project.date && (
+                                                            <div className="font-medium text-primary/70">
+                                                                {new Date(project.date).toLocaleDateString('en-ZM', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <h3 className="text-lg font-bold text-black uppercase group-hover:text-secondary transition-colors" style={{ fontFamily: 'Montserrat, sans-serif' }}>

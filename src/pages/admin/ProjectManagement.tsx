@@ -28,7 +28,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Search, Edit, Trash2, Upload, X, Image as ImageIcon } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Upload, X, Image as ImageIcon, Star } from 'lucide-react';
 import { useProjectQuery, useProjectMutation } from '@/hooks/useApi';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -39,7 +39,9 @@ interface Project {
     year: string;
     type: string;
     description: string;
+    date: string | null;
     image_url: string | null;
+    images: string[] | null;
     status: string;
     created_at: string;
 }
@@ -64,7 +66,9 @@ export default function ProjectManagement() {
         year: '',
         type: '',
         description: '',
+        date: new Date().toISOString().split('T')[0],
         image_url: null as string | null,
+        images: [] as string[],
         status: 'active',
     });
 
@@ -90,7 +94,9 @@ export default function ProjectManagement() {
                 year: project.year,
                 type: project.type,
                 description: project.description || '',
+                date: project.date || new Date().toISOString().split('T')[0],
                 image_url: project.image_url,
+                images: project.images || [],
                 status: project.status,
             });
         } else {
@@ -101,7 +107,9 @@ export default function ProjectManagement() {
                 year: '',
                 type: '',
                 description: '',
+                date: new Date().toISOString().split('T')[0],
                 image_url: null,
+                images: [],
                 status: 'active',
             });
         }
@@ -109,23 +117,65 @@ export default function ProjectManagement() {
         setIsDialogOpen(true);
     };
 
-    // Simplified image handling for now - store as base64 string or URL
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
+    // Handle multiple image uploads
+    const handleImagesUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || []);
+        const remainingSlots = 5 - (formData.images?.length || 0);
+
+        if (files.length > remainingSlots) {
+            toast({
+                title: 'Limit Exceeded',
+                description: `You can only add ${remainingSlots} more image(s). (Max 5 total)`,
+                variant: 'destructive'
+            });
+        }
+
+        const filesToProcess = files.slice(0, remainingSlots);
+
+        filesToProcess.forEach(file => {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormData({ ...formData, image_url: reader.result as string });
+                const base64 = reader.result as string;
+                setFormData(prev => ({
+                    ...prev,
+                    images: [...(prev.images || []), base64],
+                    // Set the first image as the main image_url if not already set
+                    image_url: prev.image_url || base64
+                }));
             };
             reader.readAsDataURL(file);
-        }
+        });
     };
 
-    const removeImage = () => {
-        setFormData({ ...formData, image_url: null });
+    const removeImage = (index: number) => {
+        setFormData(prev => {
+            const newImages = [...(prev.images || [])];
+            newImages.splice(index, 1);
+
+            // If we removed the main image_url, update it to the next available one
+            let newImageUrl = prev.image_url;
+            if (prev.images?.[index] === prev.image_url) {
+                newImageUrl = newImages.length > 0 ? newImages[0] : null;
+            }
+
+            return {
+                ...prev,
+                images: newImages,
+                image_url: newImageUrl
+            };
+        });
+
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
+    };
+
+    const setMainImage = (index: number) => {
+        setFormData(prev => ({
+            ...prev,
+            image_url: prev.images?.[index] || null
+        }));
+        toast({ title: 'Main Image Set', description: 'Selected image will be used as the project thumbnail.' });
     };
 
     const validateForm = () => {
@@ -234,6 +284,7 @@ export default function ProjectManagement() {
                         <TableRow>
                             <TableHead className="font-bold uppercase">Image</TableHead>
                             <TableHead className="font-bold uppercase">Name</TableHead>
+                            <TableHead className="font-bold uppercase">Date</TableHead>
                             <TableHead className="font-bold uppercase">Category</TableHead>
                             <TableHead className="font-bold uppercase">Year</TableHead>
                             <TableHead className="font-bold uppercase">Type</TableHead>
@@ -265,6 +316,9 @@ export default function ProjectManagement() {
                                         </div>
                                     </TableCell>
                                     <TableCell className="font-medium">{project.name}</TableCell>
+                                    <TableCell className="text-sm">
+                                        {project.date ? new Date(project.date).toLocaleDateString() : 'N/A'}
+                                    </TableCell>
                                     <TableCell><Badge variant="outline">{project.category}</Badge></TableCell>
                                     <TableCell>{project.year}</TableCell>
                                     <TableCell className="text-sm text-gray-600">{project.type}</TableCell>
@@ -367,6 +421,16 @@ export default function ProjectManagement() {
                         </div>
 
                         <div>
+                            <Label htmlFor="date">Project Date *</Label>
+                            <Input
+                                id="date"
+                                type="date"
+                                value={formData.date || ''}
+                                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                            />
+                        </div>
+
+                        <div>
                             <Label htmlFor="description">Description (Optional)</Label>
                             <Textarea
                                 id="description"
@@ -377,43 +441,70 @@ export default function ProjectManagement() {
                             />
                         </div>
 
-                        {/* Image Upload */}
+                        {/* Multiple Image Upload */}
                         <div>
-                            <Label>Project Image (Optional)</Label>
-                            {formData.image_url ? (
-                                <div className="relative mt-2">
-                                    <img src={formData.image_url} alt="Preview" className="w-full h-48 object-cover rounded border" />
-                                    <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="sm"
-                                        className="absolute top-2 right-2"
-                                        onClick={removeImage}
-                                    >
-                                        <X className="w-4 h-4" />
-                                    </Button>
-                                </div>
-                            ) : (
-                                <div className="mt-2">
-                                    <input
-                                        ref={fileInputRef}
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleImageUpload}
-                                        className="hidden"
-                                        id="image-upload"
-                                    />
-                                    <label
-                                        htmlFor="image-upload"
-                                        className="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-primary transition-colors"
-                                    >
-                                        <div className="text-center">
-                                            <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                                            <p className="text-sm text-gray-600">Click to upload image</p>
+                            <div className="flex items-center justify-between mb-2">
+                                <Label>Project Images (Max 5)</Label>
+                                <span className="text-xs text-gray-500">{formData.images?.length || 0} / 5</span>
+                            </div>
+
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
+                                {formData.images?.map((url, index) => (
+                                    <div key={index} className="relative group aspect-square rounded border overflow-hidden bg-gray-50">
+                                        <img src={url} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
+
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                            <Button
+                                                type="button"
+                                                variant="secondary"
+                                                size="sm"
+                                                className="h-8 w-8 p-0"
+                                                onClick={() => setMainImage(index)}
+                                                title="Set as main image"
+                                            >
+                                                <Star className={`w-4 h-4 ${formData.image_url === url ? 'fill-primary text-primary' : ''}`} />
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                size="sm"
+                                                className="h-8 w-8 p-0"
+                                                onClick={() => removeImage(index)}
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </Button>
                                         </div>
+
+                                        {formData.image_url === url && (
+                                            <div className="absolute top-1 left-1 bg-primary text-black text-[10px] font-bold px-1.5 py-0.5 rounded uppercase">
+                                                Main
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+
+                                {(formData.images?.length || 0) < 5 && (
+                                    <label
+                                        htmlFor="images-upload"
+                                        className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-primary transition-colors bg-gray-50"
+                                    >
+                                        <Upload className="w-6 h-6 text-gray-400 mb-1" />
+                                        <span className="text-[10px] text-gray-500 uppercase font-bold">Upload</span>
+                                        <input
+                                            ref={fileInputRef}
+                                            type="file"
+                                            accept="image/*"
+                                            multiple
+                                            onChange={handleImagesUpload}
+                                            className="hidden"
+                                            id="images-upload"
+                                        />
                                     </label>
-                                </div>
-                            )}
+                                )}
+                            </div>
+                            <p className="text-[10px] text-gray-500 mt-2">
+                                Tip: The image marked as "Main" will be shown in the project listing.
+                            </p>
                         </div>
 
                         <div className="flex items-center gap-2">
