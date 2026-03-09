@@ -60,42 +60,7 @@ const Careers = () => {
                     </div>
                 </section>
 
-                {/* Values Section */}
-                <section className="py-24 bg-white">
-                    <div className="container mx-auto px-4">
-                        <SectionObserver className="grid md:grid-cols-2 gap-16 items-center mb-24">
-                            <div>
-                                <h2 className="text-4xl md:text-5xl font-bold font-heading text-black mb-6 uppercase">
-                                    Why Work With Us?
-                                </h2>
-                                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                                    At Veatiger, we believe that our people are our greatest asset. We foster a culture of innovation, collaboration, and continuous learning.
-                                </p>
-                                <ul className="space-y-4">
-                                    {[
-                                        'Competitive compensation and benefits',
-                                        'Opportunities for professional growth',
-                                        'Diverse and inclusive work environment',
-                                        'Commitment to safety and excellence'
-                                    ].map((item, index) => (
-                                        <li key={index} className="flex items-center gap-3">
-                                            <div className="w-2 h-2 bg-primary rounded-full" />
-                                            <span className="text-gray-700 font-medium">{item}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="relative">
-                                <div className="absolute -inset-4 bg-primary/10 rounded-lg transform rotate-3" />
-                                <img
-                                    src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop"
-                                    alt="Team collaboration"
-                                    className="relative rounded-lg shadow-xl"
-                                />
-                            </div>
-                        </SectionObserver>
-                    </div>
-                </section>
+
 
                 {/* Current Openings */}
                 <section className="py-24 bg-gray-50">
