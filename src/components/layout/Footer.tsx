@@ -41,6 +41,9 @@ export const Footer = () => {
                 <Link to="/services" className="text-gray-400 hover:text-primary transition-colors uppercase text-sm font-medium tracking-wide">Services</Link>
               </li>
               <li>
+                <Link to="/commodities" className="text-gray-400 hover:text-primary transition-colors uppercase text-sm font-medium tracking-wide">Commodities</Link>
+              </li>
+              <li>
                 <Link to="/projects" className="text-gray-400 hover:text-primary transition-colors uppercase text-sm font-medium tracking-wide">Projects</Link>
               </li>
               <li>
@@ -49,16 +52,23 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Services & Commodities */}
           <div>
-            <h3 className="text-xl font-bold font-heading mb-8 text-white uppercase tracking-wider">Our Services</h3>
-            <ul className="space-y-4 text-sm text-gray-400">
+            <h3 className="text-xl font-bold font-heading mb-6 text-white uppercase tracking-wider">Services</h3>
+            <ul className="space-y-3 text-sm text-gray-400 mb-8">
               <li className="hover:text-primary transition-colors cursor-default">Mining Support</li>
               <li className="hover:text-primary transition-colors cursor-default">Transport and Logistics</li>
               <li className="hover:text-primary transition-colors cursor-default">Civil Engineering</li>
               <li className="hover:text-primary transition-colors cursor-default">Building Construction</li>
               <li className="hover:text-primary transition-colors cursor-default">General Supply</li>
-              <li className="hover:text-primary transition-colors cursor-default">Hardware Supplies</li>
+            </ul>
+            <h3 className="text-xl font-bold font-heading mb-6 text-white uppercase tracking-wider">Commodities</h3>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li className="hover:text-primary transition-colors cursor-default">Chrome Concentrate</li>
+              <li className="hover:text-primary transition-colors cursor-default">Coal &amp; Diesel</li>
+              <li className="hover:text-primary transition-colors cursor-default">Gold &amp; Diamonds</li>
+              <li className="hover:text-primary transition-colors cursor-default">Copper Cathode</li>
+              <li className="hover:text-primary transition-colors cursor-default">Manganese</li>
             </ul>
           </div>
 

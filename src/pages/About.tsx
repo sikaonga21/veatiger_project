@@ -129,7 +129,7 @@ const About = () => {
                     <div className="container mx-auto px-4">
                         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                             <SectionObserver>
-                                <h2 className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Approach</h2>
+                                <h2 className="text-secondary font-bold text-sm uppercase tracking-widest mb-3">Our Approach</h2>
                                 <h3 className="text-4xl md:text-5xl font-bold font-heading text-black mb-8 uppercase leading-tight">
                                     INTEGRATED SOLUTIONS FOR AFRICA
                                 </h3>

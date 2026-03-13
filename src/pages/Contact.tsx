@@ -61,7 +61,7 @@ const Contact = () => {
                             {/* Contact Information */}
                                 <div>
                                 <SectionObserver>
-                                    <h2 className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Offices</h2>
+                                    <h2 className="text-secondary font-bold text-sm uppercase tracking-widest mb-3">Our Offices</h2>
                                     <h3 className="text-4xl md:text-5xl font-bold font-heading text-black mb-6 uppercase">VISIT US</h3>
                                     <div className="w-16 h-1 bg-primary mb-8"></div>
                                     <p className="text-gray-500 mb-12 text-lg">
@@ -133,6 +133,25 @@ const Contact = () => {
                                             </p>
                                         </div>
                                     </div>
+                                    </SectionObserver>
+
+                                    {/* Ndola Office */}
+                                    <SectionObserver>
+                                        <div className="p-8 bg-muted/50 border-l-4 border-primary hover:bg-muted transition-colors duration-300">
+                                            <h3 className="text-xl font-bold font-heading text-black mb-4 flex items-center gap-3 uppercase">
+                                                <Buildings className="w-5 h-5 text-primary" weight="bold" /> Ndola Office
+                                            </h3>
+                                            <div className="space-y-3 text-gray-600 pl-8">
+                                                <p className="flex items-start gap-3">
+                                                    <MapPin className="w-4 h-4 mt-1 shrink-0 text-primary" />
+                                                    <span>37 Cross Crescent, Kansenshi<br />Ndola, Zambia</span>
+                                                </p>
+                                                <p className="flex items-center gap-3">
+                                                    <Envelope className="w-4 h-4 text-primary" weight="fill" />
+                                                    info@veatiger.com
+                                                </p>
+                                            </div>
+                                        </div>
                                     </SectionObserver>
                                 </div>
                             </div>

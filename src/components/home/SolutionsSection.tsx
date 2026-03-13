@@ -60,7 +60,7 @@ const SolutionItem = ({ title, subtitle, description, learnMoreLink, imageSrc, i
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8 }}
                     >
-                        <h3 className="text-primary font-bold tracking-widest uppercase mb-2 text-sm">{title}</h3>
+                        <h3 className="text-secondary font-bold tracking-widest uppercase mb-2 text-sm">{title}</h3>
                         <h2 className="text-4xl md:text-5xl font-bold font-heading text-secondary mb-8 leading-tight">{subtitle}</h2>
                         <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
                             {description}

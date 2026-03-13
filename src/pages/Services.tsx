@@ -16,7 +16,7 @@ const services = [
     {
         title: "Transport and Logistics",
         icon: Truck,
-        description: "In the transport and logistics business, VEATIGER boasts of a well-maintained fleet of 72 trucks, including long haul tri-axle trailers that are registered for container transportation with reputable companies such as Mediterranean Shipping Company (MSC), SAFMARIME, and Maersk. In addition, the company has a fleet of 4 x 7 tonners' trucks that complement the larger fleet by handling smaller consignments into the depot for consolidation and onward loading onto bigger trucks, ensuring efficient and timely deliveries to final destinations.",
+        description: "In the transport and logistics business, VEATIGER boasts a well-maintained fleet of 72 trucks, including long haul tri-axle trailers registered for container transportation with reputable companies such as Mediterranean Shipping Company (MSC), Safmarine, and Maersk. Our specialised tankers transport petroleum products such as diesel and petrol, and are fitted with safety features including emergency shut-off valves and fire suppression systems to prevent accidents. All tankers are regularly inspected and maintained to ensure they meet industry standards and comply with all safety regulations. In addition, the company operates a fleet of 4 x 7-tonner trucks that complement the larger fleet by handling smaller consignments into the depot for consolidation and onward loading onto bigger trucks, ensuring efficient and timely deliveries to final destinations.",
         image: "/trucks.jpeg"
     },
     {
@@ -68,7 +68,7 @@ const ServiceItem = ({ service, index }: { service: typeof services[0]; index: n
                         transition={{ duration: 0.8 }}
                     >
                         <div className="flex items-center gap-4 mb-6">
-                            <service.icon className="w-8 h-8 text-primary" weight="bold" />
+                            <service.icon className="w-8 h-8 text-secondary" weight="bold" />
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-black uppercase leading-tight">
                                 {service.title}
                             </h2>

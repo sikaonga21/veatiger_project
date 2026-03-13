@@ -9,6 +9,64 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Buildings } from "phosphor-react";
 import { useProjectQuery } from '@/hooks/useApi';
 
+const featuredProjects = [
+    {
+        id: 'featured-1',
+        name: 'Mining Support Operations',
+        category: 'Mining',
+        type: 'Industrial',
+        year: '2024',
+        description: 'Supplying industrial materials, engineering support, and logistics solutions to major mining operations across Zambia.',
+        image_url: '/mine 6.jpeg',
+        images: [] as string[],
+        date: null,
+    },
+    {
+        id: 'featured-2',
+        name: 'Long Haul Transport Fleet',
+        category: 'Transport & Logistics',
+        type: 'Logistics',
+        year: '2024',
+        description: 'Operating 72 tri-axle trailers registered with MSC, Safmarine and Maersk for container transport across Southern Africa.',
+        image_url: '/trucks.jpeg',
+        images: [] as string[],
+        date: null,
+    },
+    {
+        id: 'featured-3',
+        name: 'Commercial Building Construction',
+        category: 'Building Construction',
+        type: 'Construction',
+        year: '2023',
+        description: 'Delivering quality residential, commercial and industrial building projects with expert project management.',
+        image_url: '/const.jpeg',
+        images: [] as string[],
+        date: null,
+    },
+    {
+        id: 'featured-4',
+        name: 'Civil Engineering Infrastructure',
+        category: 'Civil Engineering',
+        type: 'Infrastructure',
+        year: '2023',
+        description: 'Earthworks, concrete works, and structural steel projects for mining, oil, gas, and power generation sectors.',
+        image_url: '/C-engi.jpeg',
+        images: [] as string[],
+        date: null,
+    },
+    {
+        id: 'featured-5',
+        name: 'General & Hardware Supply',
+        category: 'General Supply',
+        type: 'Supply',
+        year: '2024',
+        description: 'Supplying office equipment, stationery, hardware materials, and food provisions to government and corporate clients.',
+        image_url: '/hardware.jpeg',
+        images: [] as string[],
+        date: null,
+    },
+];
+
 const SectionObserver = ({ children, className = "", delay = 0, direction = "left" }: { children: React.ReactNode; className?: string; delay?: number; direction?: "left" | "right" }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -77,14 +135,14 @@ const ProjectSlideshow = ({ images, name }: { images: string[]; name: string }) 
 };
 
 const Projects = () => {
-    const { data: projects = [], isLoading } = useProjectQuery();
+    const { data: dbProjects = [], isLoading } = useProjectQuery();
 
-    // Group projects by category
-    const groupedProjects = projects.reduce((acc: any, project: any) => {
+    // Group db projects by category
+    const groupedDbProjects = dbProjects.reduce((acc: any, project: any) => {
         if (!acc[project.category]) {
             acc[project.category] = {
                 category: project.category,
-                description: "", // Description might need to be handled differently if it varies per project in same category
+                description: "",
                 items: []
             };
         }
@@ -92,7 +150,19 @@ const Projects = () => {
         return acc;
     }, {});
 
-    const projectGroups = Object.values(groupedProjects);
+    const dbProjectGroups = Object.values(groupedDbProjects);
+
+    // Group featured (static) projects by category
+    const groupedFeatured = featuredProjects.reduce((acc: any, project) => {
+        if (!acc[project.category]) {
+            acc[project.category] = { category: project.category, items: [] };
+        }
+        acc[project.category].items.push(project);
+        return acc;
+    }, {});
+    const featuredGroups: any[] = Object.values(groupedFeatured);
+
+    const projectGroups = dbProjectGroups.length > 0 ? dbProjectGroups : featuredGroups;
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -153,7 +223,7 @@ const Projects = () => {
                                         <h2 className="text-4xl md:text-5xl font-bold font-heading text-black uppercase">{group.category}</h2>
                                         {/* <p className="text-gray-500 mt-2 text-lg">{group.description}</p> */}
                                     </div>
-                                    <span className="text-3xl font-bold font-heading text-primary whitespace-nowrap">
+                                    <span className="text-3xl font-bold font-heading text-secondary whitespace-nowrap">
                                         Projects
                                     </span>
                                 </div>
@@ -174,7 +244,7 @@ const Projects = () => {
                                             </div>
                                             <div className="p-6">
                                                 <div className="flex justify-between items-start mb-3">
-                                                    <span className="text-xs font-bold uppercase tracking-widest text-primary">
+                                                    <span className="text-xs font-bold uppercase tracking-widest text-secondary">
                                                         {project.type}
                                                     </span>
                                                     <div className="flex flex-col items-end text-xs text-gray-400 gap-1">
@@ -183,7 +253,7 @@ const Projects = () => {
                                                             {project.year}
                                                         </div>
                                                         {project.date && (
-                                                            <div className="font-medium text-primary/70">
+                                                            <div className="font-medium text-secondary/70">
                                                                 {new Date(project.date).toLocaleDateString('en-ZM', { month: 'short', day: 'numeric', year: 'numeric' })}
                                                             </div>
                                                         )}
