@@ -10,6 +10,13 @@
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Veatiger General Dealers" />
     <meta name="language" content="English" />
+    <!-- Google Search Console verification: replace the content value with the code from GSC -->
+    <meta name="google-site-verification" content="REPLACE_WITH_GSC_VERIFICATION_CODE" />
+
+    <!-- Performance: preconnect to common providers -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -28,6 +35,8 @@
     
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="canonical" href="https://veatiger-project.vercel.app/" />
+    <link rel="alternate" type="application/rss+xml" title="Veatiger RSS" href="/rss.xml" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -56,6 +65,58 @@
         "addressCountry": "ZM"
       }
     }
+    </script>
+    <!-- Additional structured data for local SEO and website search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://veatiger-project.vercel.app/#website",
+          "url": "https://veatiger-project.vercel.app/",
+          "name": "Veatiger General Dealers",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://veatiger-project.vercel.app/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://veatiger-project.vercel.app/#localbusiness",
+          "name": "Veatiger General Dealers",
+          "image": "https://veatiger-project.vercel.app/logo.png",
+          "telephone": "+260 95 6431291",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Plot No. 251 Ngwerere Rd, Longacres",
+            "addressLocality": "Lusaka",
+            "addressCountry": "ZM"
+          },
+          "sameAs": [
+            "https://facebook.com/veatiger",
+            "https://linkedin.com/company/veatiger"
+          ],
+          "priceRange": "$$",
+          "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+            "opens": "08:00",
+            "closes": "17:00"
+          }]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Google Analytics (GA4) - replace MEASUREMENT_ID with your ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date());
+      gtag('config', 'G-MEASUREMENT_ID', { 'anonymize_ip': true });
     </script>
   </head>
   <body>

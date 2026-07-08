@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://veatiger.com/sitemap.xml
+# Block admin paths from crawlers
+Disallow: /admin/
+
+# Preferred sitemap (update if your live domain differs)
+Sitemap: https://veatiger-project.vercel.app/sitemap.xml

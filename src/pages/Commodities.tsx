@@ -14,7 +14,7 @@ const commodities = [
         image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=2070&auto=format&fit=crop",
     },
     {
-        title: "Diesel & Petrol",
+        title: "Diesel And Petrol",
         region: "South Africa & Mozambique",
         description: "Acting as a trusted intermediary, we connect diesel and petrol suppliers and buyers operating across South Africa and Mozambique. Our tankers are fitted with emergency shut-off valves and fire suppression systems, and undergo regular inspections to ensure compliance with industry safety standards. We handle logistics coordination and documentation to ensure efficient and compliant fuel trade.",
         image: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?q=80&w=2070&auto=format&fit=crop",
@@ -44,7 +44,7 @@ const commodities = [
         image: "https://images.unsplash.com/photo-1615655406736-b37892a30a12?q=80&w=2070&auto=format&fit=crop",
     },
     {
-        title: "Copper — Cathode, Millberry & Blister",
+        title: "Copper — Cathode, Millberry AND Blister",
         region: "All over Africa and Europe",
         description: "We have extensive experience facilitating copper transactions — including cathode, millberry, and blister copper — across Africa and into European markets. Our connections span mining regions, smelters, and international buyers.",
         image: "/melting.jpg",
