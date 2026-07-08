@@ -5,4 +5,4 @@ Allow: /
 Disallow: /admin/
 
 # Preferred sitemap (update if your live domain differs)
-Sitemap: https://veatiger-project.vercel.app/sitemap.xml
+Sitemap: https://www.veatiger.co.zm/sitemap.xml
