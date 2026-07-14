@@ -36,7 +36,7 @@ const Careers = () => {
                 {/* Hero Section */}
                 <section className="relative h-[60vh] min-h-[400px] bg-black overflow-hidden">
                     <img
-                        src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
+                        src="career.jpg"
                         alt="Careers at Veatiger"
                         className="w-full h-full object-cover opacity-50"
                     />

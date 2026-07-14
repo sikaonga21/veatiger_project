@@ -17,19 +17,19 @@ const commodities = [
         title: "Diesel And Petrol",
         region: "South Africa & Mozambique",
         description: "Acting as a trusted intermediary, we connect diesel and petrol suppliers and buyers operating across South Africa and Mozambique. Our tankers are fitted with emergency shut-off valves and fire suppression systems, and undergo regular inspections to ensure compliance with industry safety standards. We handle logistics coordination and documentation to ensure efficient and compliant fuel trade.",
-        image: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?q=80&w=2070&auto=format&fit=crop",
+        image: "petro.jpeg",
     },
     {
         title: "Coal",
         region: "South Africa",
         description: "We source and facilitate the buying and selling of coal across South Africa. Whether for industrial, power generation, or export purposes, we connect serious buyers with credible coal suppliers.",
-        image: "https://images.unsplash.com/photo-1569880153113-76161035d269?q=80&w=2070&auto=format&fit=crop",
+        image: "core.jpeg",
     },
     {
         title: "Manganese",
         region: "Zambia & Tanzania",
         description: "We facilitate manganese ore and alloy transactions between suppliers and buyers in Zambia and Tanzania. Our local presence in both markets gives us a competitive advantage in facilitating seamless deals.",
-        image: "https://images.unsplash.com/photo-1504309092620-4d0ec726efa4?q=80&w=2070&auto=format&fit=crop",
+        image: "manganise.jpeg",
     },
     {
         title: "Gold",
@@ -41,13 +41,13 @@ const commodities = [
         title: "Diamonds",
         region: "All over Africa",
         description: "Operating across the African continent, we facilitate diamond transactions between certified suppliers and qualified buyers. We ensure full regulatory compliance and transparent deal facilitation at every stage.",
-        image: "https://images.unsplash.com/photo-1615655406736-b37892a30a12?q=80&w=2070&auto=format&fit=crop",
+        image: "diamond.jpeg",
     },
     {
         title: "Copper — Cathode, Millberry AND Blister",
         region: "All over Africa and Europe",
         description: "We have extensive experience facilitating copper transactions — including cathode, millberry, and blister copper — across Africa and into European markets. Our connections span mining regions, smelters, and international buyers.",
-        image: "/melting.jpg",
+        image: "copper.jpeg",
     },
 ];
 

@@ -24,7 +24,7 @@ const featuredProjects = [
     {
         id: 'featured-2',
         name: 'Long Haul Transport Fleet',
-        category: 'Transport & Logistics',
+        category: 'Transport and Logistics',
         type: 'Logistics',
         year: '2024',
         description: 'Operating 72 tri-axle trailers registered with MSC, Safmarine and Maersk for container transport across Southern Africa.',
@@ -171,7 +171,7 @@ const Projects = () => {
                 {/* Hero Section */}
                 <section className="relative h-[60vh] min-h-[400px] bg-black overflow-hidden">
                     <img
-                        src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop"
+                        src="projecthero.jpeg"
                         alt="Our Projects"
                         className="w-full h-full object-cover opacity-50"
                     />
