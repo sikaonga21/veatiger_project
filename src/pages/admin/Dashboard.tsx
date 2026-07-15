@@ -1,10 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { Briefcase, FolderKanban, Eye, TrendingUp, Users, Calendar } from 'lucide-react';
+import { Briefcase, FolderKanban, MessageSquare, FileText, TrendingUp, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { useDashboardStats } from '@/hooks/useApi';
 
-// Mock data - will be replaced with real API calls
+// Placeholder chart data (visual indicator only)
 const pageViewsData = [
     { name: 'Mon', views: 245 },
     { name: 'Tue', views: 312 },
@@ -22,14 +23,44 @@ const visitorTrendData = [
     { name: 'Week 4', visitors: 1789 },
 ];
 
-const recentActivities = [
-    { id: 1, action: 'New career posted', item: 'Civil Engineer', time: '2 hours ago', type: 'career' },
-    { id: 2, action: 'Project updated', item: 'ZESCO Infrastructure', time: '5 hours ago', type: 'project' },
-    { id: 3, action: 'Content modified', item: 'About Page', time: '1 day ago', type: 'content' },
-    { id: 4, action: 'Career deleted', item: 'Accountant', time: '2 days ago', type: 'career' },
-];
-
 export default function AdminDashboard() {
+    const { data: stats, isLoading: statsLoading } = useDashboardStats();
+
+    const statCards = [
+        {
+            label: 'Total Projects',
+            value: statsLoading ? '...' : stats?.totalProjects ?? 0,
+            icon: FolderKanban,
+            color: 'border-l-primary',
+            iconColor: 'text-primary',
+            sub: 'In your portfolio',
+        },
+        {
+            label: 'Active Careers',
+            value: statsLoading ? '...' : stats?.activeCareers ?? 0,
+            icon: Briefcase,
+            color: 'border-l-secondary',
+            iconColor: 'text-secondary',
+            sub: 'Currently hiring',
+        },
+        {
+            label: 'Blog Posts',
+            value: statsLoading ? '...' : stats?.totalBlogPosts ?? 0,
+            icon: FileText,
+            color: 'border-l-blue-500',
+            iconColor: 'text-blue-500',
+            sub: 'Published articles',
+        },
+        {
+            label: 'Unread Messages',
+            value: statsLoading ? '...' : stats?.unreadMessages ?? 0,
+            icon: MessageSquare,
+            color: 'border-l-purple-500',
+            iconColor: 'text-purple-500',
+            sub: 'From contact form',
+        },
+    ];
+
     return (
         <div className="space-y-8">
             {/* Header */}
@@ -42,65 +73,23 @@ export default function AdminDashboard() {
 
             {/* Quick Stats */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="border-l-4 border-l-primary">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600 uppercase">
-                            Total Projects
-                        </CardTitle>
-                        <FolderKanban className="w-5 h-5 text-primary" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-bold text-black">24</div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            <span className="text-green-600 font-medium">+3</span> from last month
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="border-l-4 border-l-secondary">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600 uppercase">
-                            Active Careers
-                        </CardTitle>
-                        <Briefcase className="w-5 h-5 text-secondary" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-bold text-black">6</div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            Currently hiring
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="border-l-4 border-l-blue-500">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600 uppercase">
-                            Total Page Views
-                        </CardTitle>
-                        <Eye className="w-5 h-5 text-blue-500" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-bold text-black">12,453</div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            <span className="text-green-600 font-medium">+18%</span> from last week
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="border-l-4 border-l-purple-500">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600 uppercase">
-                            Unique Visitors
-                        </CardTitle>
-                        <Users className="w-5 h-5 text-purple-500" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-bold text-black">3,287</div>
-                        <p className="text-xs text-gray-500 mt-1">
-                            Last 30 days
-                        </p>
-                    </CardContent>
-                </Card>
+                {statCards.map((stat) => {
+                    const Icon = stat.icon;
+                    return (
+                        <Card key={stat.label} className={`border-l-4 ${stat.color}`}>
+                            <CardHeader className="flex flex-row items-center justify-between pb-2">
+                                <CardTitle className="text-sm font-medium text-gray-600 uppercase">
+                                    {stat.label}
+                                </CardTitle>
+                                <Icon className={`w-5 h-5 ${stat.iconColor}`} />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-3xl font-bold text-black">{String(stat.value)}</div>
+                                <p className="text-xs text-gray-500 mt-1">{stat.sub}</p>
+                            </CardContent>
+                        </Card>
+                    );
+                })}
             </div>
 
             {/* Charts */}
@@ -166,32 +155,52 @@ export default function AdminDashboard() {
                 </Card>
             </div>
 
-            {/* Recent Activity & Quick Actions */}
+            {/* Quick Actions */}
             <div className="grid gap-6 lg:grid-cols-3">
-                {/* Recent Activity */}
+                {/* DB Status */}
                 <Card className="lg:col-span-2">
                     <CardHeader>
                         <CardTitle className="text-lg font-bold font-heading uppercase flex items-center gap-2">
                             <Calendar className="w-5 h-5" />
-                            Recent Activity
+                            Supabase Connection
                         </CardTitle>
-                        <CardDescription>Latest changes to your content</CardDescription>
+                        <CardDescription>Live data from your Supabase project</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
-                            {recentActivities.map((activity) => (
-                                <div key={activity.id} className="flex items-start gap-4 pb-4 border-b last:border-0 last:pb-0">
-                                    <div className={`w-2 h-2 rounded-full mt-2 ${activity.type === 'career' ? 'bg-secondary' :
-                                        activity.type === 'project' ? 'bg-primary' :
-                                            'bg-blue-500'
-                                        }`} />
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium text-black">{activity.action}</p>
-                                        <p className="text-sm text-gray-600">{activity.item}</p>
-                                    </div>
-                                    <span className="text-xs text-gray-500 whitespace-nowrap">{activity.time}</span>
+                            <div className="flex items-center gap-3 pb-3 border-b">
+                                <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
+                                <div>
+                                    <p className="text-sm font-medium text-black">Connected to Supabase</p>
+                                    <p className="text-xs text-gray-500">Project: isrrbfclonghenrwqpjp</p>
                                 </div>
-                            ))}
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-gray-50 rounded p-3">
+                                    <p className="text-xs text-gray-500 uppercase tracking-wide">Projects table</p>
+                                    <p className="text-lg font-bold text-black mt-1">
+                                        {statsLoading ? '...' : stats?.totalProjects ?? 0} rows
+                                    </p>
+                                </div>
+                                <div className="bg-gray-50 rounded p-3">
+                                    <p className="text-xs text-gray-500 uppercase tracking-wide">Careers table</p>
+                                    <p className="text-lg font-bold text-black mt-1">
+                                        {statsLoading ? '...' : stats?.activeCareers ?? 0} active
+                                    </p>
+                                </div>
+                                <div className="bg-gray-50 rounded p-3">
+                                    <p className="text-xs text-gray-500 uppercase tracking-wide">Blog posts table</p>
+                                    <p className="text-lg font-bold text-black mt-1">
+                                        {statsLoading ? '...' : stats?.totalBlogPosts ?? 0} rows
+                                    </p>
+                                </div>
+                                <div className="bg-gray-50 rounded p-3">
+                                    <p className="text-xs text-gray-500 uppercase tracking-wide">Contact messages</p>
+                                    <p className="text-lg font-bold text-black mt-1">
+                                        {statsLoading ? '...' : stats?.unreadMessages ?? 0} unread
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </CardContent>
                 </Card>
@@ -217,10 +226,10 @@ export default function AdminDashboard() {
                                 Add Project
                             </Button>
                         </Link>
-                        <Link to="/admin/content">
+                        <Link to="/admin/blog">
                             <Button className="w-full bg-white hover:bg-gray-100 text-black font-bold uppercase">
                                 <TrendingUp className="w-4 h-4 mr-2" />
-                                Edit Content
+                                Write Blog Post
                             </Button>
                         </Link>
                     </CardContent>

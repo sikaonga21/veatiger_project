@@ -2,11 +2,13 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { MapPin, Phone, Envelope, Buildings } from "phosphor-react";
+import { useRef, useState } from 'react';
+import { MapPin, Phone, Envelope, Buildings, CheckCircle } from "phosphor-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useContactMutation } from '@/hooks/useApi';
+import { useToast } from '@/components/ui/use-toast';
 
 const SectionObserver = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
     const ref = useRef(null);
@@ -25,6 +27,47 @@ const SectionObserver = ({ children, className = "" }: { children: React.ReactNo
 };
 
 const Contact = () => {
+    const { toast } = useToast();
+    const sendMessage = useContactMutation();
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+            toast({ title: 'Missing fields', description: 'Please fill in all required fields.', variant: 'destructive' });
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            await sendMessage.mutateAsync(formData);
+            setSubmitted(true);
+            setFormData({ name: '', email: '', subject: '', message: '' });
+            toast({ title: 'Message Sent!', description: 'We will get back to you shortly.' });
+        } catch (err: any) {
+            toast({
+                title: 'Send Failed',
+                description: err?.message || 'Could not send your message. Please try again.',
+                variant: 'destructive',
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
@@ -85,10 +128,13 @@ const Contact = () => {
                                                     <Phone className="w-4 h-4 text-primary" />
                                                     +260 95 6431291 / +260 96 3627768
                                                 </p>
-                                                <p className="flex items-center gap-3">
-                                                    <Envelope className="w-4 h-4 text-primary" />
-                                                    info@veatiger.co.zm
-                                                </p>
+                                                <div className="flex items-start gap-3">
+                                                    <Envelope className="w-4 h-4 text-primary shrink-0 mt-1" />
+                                                    <div className="flex flex-col">
+                                                        <span>info@veatiger.co.zm</span>
+                                                        <span>sale@veatiger.co.zm</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </SectionObserver>
@@ -148,7 +194,7 @@ const Contact = () => {
                                                 </p>
                                                 <p className="flex items-center gap-3">
                                                     <Envelope className="w-4 h-4 text-primary" weight="fill" />
-                                                    info@veatiger.com
+                                                    construction@veatiger.co.zm
                                                 </p>
                                             </div>
                                         </div>
@@ -167,7 +213,7 @@ const Contact = () => {
                                             style={{ border: 0 }}
                                             loading="lazy"
                                             allowFullScreen
-                                            src="https://maps.google.com/maps?q=Ngwerere+Rd,+Lusaka,+Zambia&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                            src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1396.722793984193!2d28.315536460218134!3d-15.419646256929248!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2szm!4v1784085179123!5m2!1sen!2szm"
                                             title="Veatiger Head Office Map"
                                         ></iframe>
                                     </div>
@@ -178,29 +224,85 @@ const Contact = () => {
                                     <div className="bg-black p-10">
                                         <h2 className="text-2xl font-bold font-heading text-white mb-2 uppercase">Send us a Message</h2>
                                         <div className="w-12 h-1 bg-primary mb-8"></div>
-                                        <form className="space-y-5">
-                                            <div className="grid md:grid-cols-2 gap-4">
-                                                <div className="space-y-2">
-                                                    <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Name</label>
-                                                    <Input placeholder="Your Name" className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary" />
+
+                                        {submitted ? (
+                                            <motion.div
+                                                initial={{ opacity: 0, scale: 0.95 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                className="flex flex-col items-center justify-center py-12 text-center"
+                                            >
+                                                <CheckCircle className="w-16 h-16 text-primary mb-4" weight="fill" />
+                                                <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+                                                <p className="text-white/60 mb-6">Thank you for reaching out. We'll get back to you shortly.</p>
+                                                <button
+                                                    onClick={() => setSubmitted(false)}
+                                                    className="text-primary text-sm uppercase font-bold tracking-widest hover:underline"
+                                                >
+                                                    Send another message
+                                                </button>
+                                            </motion.div>
+                                        ) : (
+                                            <form onSubmit={handleSubmit} className="space-y-5">
+                                                <div className="grid md:grid-cols-2 gap-4">
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Name *</label>
+                                                        <Input
+                                                            name="name"
+                                                            value={formData.name}
+                                                            onChange={handleChange}
+                                                            placeholder="Your Name"
+                                                            className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Email *</label>
+                                                        <Input
+                                                            name="email"
+                                                            type="email"
+                                                            value={formData.email}
+                                                            onChange={handleChange}
+                                                            placeholder="Your Email"
+                                                            className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary"
+                                                            required
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Email</label>
-                                                    <Input type="email" placeholder="Your Email" className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary" />
+                                                    <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Subject</label>
+                                                    <Input
+                                                        name="subject"
+                                                        value={formData.subject}
+                                                        onChange={handleChange}
+                                                        placeholder="Subject"
+                                                        className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary"
+                                                    />
                                                 </div>
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Subject</label>
-                                                <Input placeholder="Subject" className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Message</label>
-                                                <Textarea placeholder="Your Message" className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary min-h-[140px]" />
-                                            </div>
-                                            <Button className="w-full bg-primary text-black hover:bg-primary/90 font-bold uppercase tracking-wider py-6 rounded-none text-base">
-                                                Send Message
-                                            </Button>
-                                        </form>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-medium text-white/60 uppercase tracking-wide">Message *</label>
+                                                    <Textarea
+                                                        name="message"
+                                                        value={formData.message}
+                                                        onChange={handleChange}
+                                                        placeholder="Your Message"
+                                                        className="bg-white/10 border-white/20 text-white placeholder:text-white/30 rounded-none focus:border-primary min-h-[140px]"
+                                                        required
+                                                    />
+                                                </div>
+                                                <Button
+                                                    type="submit"
+                                                    disabled={isSubmitting}
+                                                    className="w-full bg-primary text-black hover:bg-primary/90 font-bold uppercase tracking-wider py-6 rounded-none text-base"
+                                                >
+                                                    {isSubmitting ? (
+                                                        <span className="flex items-center gap-2">
+                                                            <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                                                            Sending...
+                                                        </span>
+                                                    ) : 'Send Message'}
+                                                </Button>
+                                            </form>
+                                        )}
                                     </div>
                                 </SectionObserver>
                             </div>

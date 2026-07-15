@@ -88,7 +88,10 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-4">
                 <Envelope className="w-5 h-5 text-primary shrink-0" weight="fill" />
-                <span className="text-gray-400">info@veatiger.com</span>
+                <div className="flex flex-col text-gray-400">
+                  <span>info@veatiger.co.zm</span>
+                  <span>sale@veatiger.co.zm</span>
+                </div>
               </li>
             </ul>
           </div>

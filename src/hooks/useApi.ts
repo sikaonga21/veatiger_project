@@ -195,26 +195,28 @@ export const useBlogMutation = () => {
     };
 };
 
-// Analytics hooks (basic implementation)
+// Analytics hooks (real stats from DB)
 export const useAnalyticsQuery = () => {
     return useQuery({
         queryKey: ['analytics'],
         queryFn: async () => {
-            // For now, return mock stats or basic counts
-            const { count: projectsCount } = await supabase
-                .from('projects')
-                .select('*', { count: 'exact', head: true });
-
-            const { count: careersCount } = await supabase
-                .from('careers')
-                .select('*', { count: 'exact', head: true })
-                .eq('status', 'active');
+            const [
+                { count: projectsCount },
+                { count: careersCount },
+                { count: blogCount },
+                { count: messagesCount },
+            ] = await Promise.all([
+                supabase.from('projects').select('*', { count: 'exact', head: true }),
+                supabase.from('careers').select('*', { count: 'exact', head: true }).eq('status', 'active'),
+                supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
+                supabase.from('contact_messages').select('*', { count: 'exact', head: true }),
+            ]);
 
             return {
                 projects: projectsCount || 0,
                 active_careers: careersCount || 0,
-                total_views: 0, // Placeholder
-                unique_visitors: 0, // Placeholder
+                blog_posts: blogCount || 0,
+                messages: messagesCount || 0,
             };
         },
     });
@@ -223,8 +225,53 @@ export const useAnalyticsQuery = () => {
 export const useTrackVisit = () => {
     return useMutation({
         mutationFn: async (data: { page: string; referrer?: string }) => {
-            // Placeholder for analytics tracking
             console.log('Tracking visit:', data);
+        },
+    });
+};
+
+// Contact form hook
+export const useContactMutation = () => {
+    return useMutation({
+        mutationFn: async (data: {
+            name: string;
+            email: string;
+            subject: string;
+            message: string;
+        }) => {
+            const { data: result, error } = await supabase
+                .from('contact_messages')
+                .insert([{ ...data, status: 'unread' }])
+                .select()
+                .single();
+            handleSupabaseError(error);
+            return result;
+        },
+    });
+};
+
+// Dashboard stats hook
+export const useDashboardStats = () => {
+    return useQuery({
+        queryKey: ['dashboard_stats'],
+        queryFn: async () => {
+            const [
+                { count: totalProjects },
+                { count: activeCareers },
+                { count: totalBlogPosts },
+                { count: unreadMessages },
+            ] = await Promise.all([
+                supabase.from('projects').select('*', { count: 'exact', head: true }),
+                supabase.from('careers').select('*', { count: 'exact', head: true }).eq('status', 'active'),
+                supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
+                supabase.from('contact_messages').select('*', { count: 'exact', head: true }).eq('status', 'unread'),
+            ]);
+            return {
+                totalProjects: totalProjects || 0,
+                activeCareers: activeCareers || 0,
+                totalBlogPosts: totalBlogPosts || 0,
+                unreadMessages: unreadMessages || 0,
+            };
         },
     });
 };
