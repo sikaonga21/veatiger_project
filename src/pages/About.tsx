@@ -57,7 +57,7 @@ const About = () => {
                 {/* Hero Section - Full width image */}
                 <section className="relative h-[60vh] min-h-[400px] bg-black overflow-hidden">
                     <img
-                        src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop"
+                        src="projects.jpeg"
                         alt="About Veatiger"
                         className="w-full h-full object-cover opacity-60"
                     />
@@ -148,7 +148,7 @@ const About = () => {
                             <SectionObserver>
                                 <div className="relative overflow-hidden shadow-2xl">
                                     <img
-                                        src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop"
+                                        src="map.png"
                                         alt="Team at work"
                                         className="w-full h-[500px] object-cover"
                                     />

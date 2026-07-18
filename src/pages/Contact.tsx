@@ -122,7 +122,7 @@ const Contact = () => {
                                             <div className="space-y-3 text-gray-600 pl-8">
                                                 <p className="flex items-start gap-3">
                                                     <MapPin className="w-4 h-4 mt-1 shrink-0 text-primary" />
-                                                    <span>Plot No. 251 Ngwerere Rd.<br />Longacres - Lusaka</span>
+                                                    <span>  Ground Floor of Saturnia House.<br />Longacres - Chisidza Cres Rd - Lusaka</span>
                                                 </p>
                                                 <p className="flex items-center gap-3">
                                                     <Phone className="w-4 h-4 text-primary" />
@@ -156,7 +156,7 @@ const Contact = () => {
                                                 </p>
                                                 <p className="flex items-center gap-3">
                                                     <Envelope className="w-4 h-4 text-primary" weight="fill" />
-                                                    info@veatiger.co.zm
+                                                    construction@veatiger.co.zm
                                                 </p>
                                             </div>
                                         </div>
@@ -213,7 +213,7 @@ const Contact = () => {
                                             style={{ border: 0 }}
                                             loading="lazy"
                                             allowFullScreen
-                                            src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1396.722793984193!2d28.315536460218134!3d-15.419646256929248!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2szm!4v1784085179123!5m2!1sen!2szm"
+                                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d762.8207588198898!2d28.31568513263716!3d-15.419256801238152!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19408d2758885fc3%3A0x3021638e3ea0bf7!2sVeatiger%20General%20Dealers%20Limited!5e1!3m2!1sen!2szm!4v1784136441543!5m2!1sen!2szm"
                                             title="Veatiger Head Office Map"
                                         ></iframe>
                                     </div>

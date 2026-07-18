@@ -30,7 +30,7 @@ const solutions = [
     description:
       "Our team of experts offers design, engineering, and project management services for civil engineering projects. From earthworks and concrete works to structural steel, we deliver infrastructure that stands the test of time.",
     learnMoreLink: '/services',
-    imageSrc: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop',
+    imageSrc: 'civil.jpeg',
     imageAlt: 'Civil Engineering',
   },
   {
@@ -46,49 +46,49 @@ const solutions = [
 ];
 
 const SolutionItem = ({ title, subtitle, description, learnMoreLink, imageSrc, imageAlt, reverse = false }: any) => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-    return (
-        <div ref={ref} className="py-24 overflow-hidden">
-            <div className="container mx-auto px-4">
-                <div className={`flex flex-col lg:flex-row gap-12 lg:gap-24 items-center ${reverse ? 'lg:flex-row-reverse' : ''}`}>
-                    {/* Text Content */}
-                    <motion.div 
-                        className="flex-1"
-                        initial={{ opacity: 0, x: reverse ? 50 : -50 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h3 className="text-secondary font-bold tracking-widest uppercase mb-2 text-sm">{title}</h3>
-                        <h2 className="text-4xl md:text-5xl font-bold font-heading text-secondary mb-8 leading-tight">{subtitle}</h2>
-                        <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
-                            {description}
-                        </p>
-                        <Link to={learnMoreLink} className="btn-primary inline-flex items-center gap-2 text-sm">
-                            Learn More <ArrowRight className="w-4 h-4" />
-                        </Link>
-                    </motion.div>
+  return (
+    <div ref={ref} className="py-24 overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className={`flex flex-col lg:flex-row gap-12 lg:gap-24 items-center ${reverse ? 'lg:flex-row-reverse' : ''}`}>
+          {/* Text Content */}
+          <motion.div
+            className="flex-1"
+            initial={{ opacity: 0, x: reverse ? 50 : -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h3 className="text-secondary font-bold tracking-widest uppercase mb-2 text-sm">{title}</h3>
+            <h2 className="text-4xl md:text-5xl font-bold font-heading text-secondary mb-8 leading-tight">{subtitle}</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
+              {description}
+            </p>
+            <Link to={learnMoreLink} className="btn-primary inline-flex items-center gap-2 text-sm">
+              Learn More <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
 
-                    {/* Image */}
-                    <motion.div 
-                        className="flex-1 w-full"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                    >
-                        <div className="relative aspect-[4/3] overflow-hidden rounded-sm shadow-2xl">
-                            <img 
-                                src={imageSrc} 
-                                alt={imageAlt} 
-                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-                    </motion.div>
-                </div>
+          {/* Image */}
+          <motion.div
+            className="flex-1 w-full"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="relative aspect-[4/3] overflow-hidden rounded-sm shadow-2xl">
+              <img
+                src={imageSrc}
+                alt={imageAlt}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              />
             </div>
+          </motion.div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export const SolutionsSection = () => {
@@ -96,7 +96,7 @@ export const SolutionsSection = () => {
     <section className="bg-white">
       {solutions.map((solution, index) => (
         <div key={solution.title} className={index % 2 === 1 ? "bg-muted/30" : ""}>
-            <SolutionItem {...solution} />
+          <SolutionItem {...solution} />
         </div>
       ))}
     </section>
