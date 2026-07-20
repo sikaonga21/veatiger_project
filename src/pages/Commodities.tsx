@@ -11,7 +11,7 @@ const commodities = [
         title: "Chrome Concentrate",
         region: "South Africa",
         description: "We facilitate chrome concentrate transactions between verified suppliers and buyers across South Africa. Our deep market knowledge and established networks ensure smooth, compliant, and timely deals for all parties involved.",
-        image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=2070&auto=format&fit=crop",
+        image: "Chrome-Concentrat.jpg",
     },
     {
         title: "Diesel And Petrol",
@@ -35,7 +35,7 @@ const commodities = [
         title: "Gold",
         region: "All over Africa",
         description: "We facilitate gold trade across the African continent, connecting licensed suppliers with verified international and local buyers. All transactions are handled with the highest standards of compliance and confidentiality.",
-        image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=2070&auto=format&fit=crop",
+        image: "goldd.jpeg", 
     },
     {
         title: "Diamonds",
@@ -47,7 +47,7 @@ const commodities = [
         title: "Copper — Cathode, Millberry AND Blister",
         region: "All over Africa and Europe",
         description: "We have extensive experience facilitating copper transactions — including cathode, millberry, and blister copper — across Africa and into European markets. Our connections span mining regions, smelters, and international buyers.",
-        image: "copper.jpeg",
+        image: "copperCa.jpg",
     },
 ];
 
@@ -112,7 +112,7 @@ const Commodities = () => {
                 {/* Hero */}
                 <section className="relative h-[60vh] min-h-[400px] bg-black overflow-hidden">
                     <img
-                        src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=2070&auto=format&fit=crop"
+                        src="Commodities.jpeg"
                         alt="Commodities"
                         className="w-full h-full object-cover opacity-50"
                     />

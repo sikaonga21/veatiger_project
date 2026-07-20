@@ -54,9 +54,16 @@ const Contact = () => {
         setIsSubmitting(true);
         try {
             await sendMessage.mutateAsync(formData);
+            
+            const to = 'mining@veatiger.co.zm';
+            const cc = 'construction@veatiger.co.zm,infor@veatiger.co.zm';
+            const subject = encodeURIComponent(formData.subject || 'New Contact Form Submission');
+            const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+            window.location.href = `mailto:${to}?cc=${cc}&subject=${subject}&body=${body}`;
+
             setSubmitted(true);
             setFormData({ name: '', email: '', subject: '', message: '' });
-            toast({ title: 'Message Sent!', description: 'We will get back to you shortly.' });
+            toast({ title: 'Message Sent!', description: 'Your email client has been opened.' });
         } catch (err: any) {
             toast({
                 title: 'Send Failed',

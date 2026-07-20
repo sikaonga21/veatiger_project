@@ -130,7 +130,7 @@ const Careers = () => {
                                                 </div>
                                                 <div className="flex items-center">
                                                     <a
-                                                        href={`mailto:careers@veatiger.com?subject=Application for ${job.title}`}
+                                                        href={`mailto:careers@veatiger.co.zm?cc=finance@veatiger.co.zm,chairman@veatiger.co.zm&subject=Application for ${encodeURIComponent(job.title)}`}
                                                         className="btn-primary whitespace-nowrap"
                                                     >
                                                         Apply Now
@@ -156,7 +156,7 @@ const Careers = () => {
                                 We're always looking for talented individuals. Send us your resume and we'll keep you in mind for future opportunities.
                             </p>
                             <a
-                                href="mailto:careers@veatiger.com?subject=General Application"
+                                href="mailto:careers@veatiger.co.zm?cc=finance@veatiger.co.zm,chairman@veatiger.co.zm&subject=General Application"
                                 className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 font-bold uppercase tracking-wider hover:bg-gray-900 transition-colors"
                             >
                                 Email Your Resume <ArrowRight className="w-5 h-5" weight="bold" />
